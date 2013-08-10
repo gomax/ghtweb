@@ -1,3 +1,29 @@
 [GHTWEB](http://ghtweb.ru/) - CMS для Java Lineage2 серверов
 ==================================================
 
+Установка
+---------------------------
+1. Скачать [CMS](https://github.com/ghtweb/ghtweb/archive/master.zip)
+2. Разархивировать в папку
+3. Настроить файл подключения к БД **application\config\database.php**
+4. Ввести ключ в файле **application\config\config.php** на **248** строке (будет Ваш уникальный ключ)
+5. Залить дамп **ghtweb.sql** (находится в архиве который качали выше) в БД
+
+
+### Доступ в Админку:
+- Логин: **admin**
+- Пароль: **123456**
+- URL: **/backend**
+
+
+
+Обновлении с версии 4.0.10
+---------------------------
+
+1. Скачать [CMS](https://github.com/ghtweb/ghtweb/archive/master.zip)
+2. Разархивировать в папку
+3. Настроить файл подключения к БД **application\config\database.php**
+4. Зайти в папку **application\config\migration.php** на **11** строке поставить **TRUE**
+```$config['migration_enabled'] = TRUE;```
+5. Удалить таблицу **all_items** и залить [эту](https://www.dropbox.com/s/6okd2wjfekesp1p/ghtweb_all_items.zip) таблицу
+6. Открыть сайт, CMS сама обновит БД
