@@ -1,0 +1,238 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+html {
+	height: 100%;
+}
+body {
+	font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
+	width: 100%;
+	height: 100%;
+}
+a {
+	color: #0088CC;
+	outline: none;
+	text-decoration: none;
+}
+a:hover {
+	color: #005580;
+	text-decoration: underline;
+}
+p {
+	margin: 0 0 18px
+}
+img {
+	border: none;
+}
+input {
+	vertical-align: middle;
+}
+#wrapper {
+	width: 1000px;
+	margin: 0 auto;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+}
+th,td
+{
+	vertical-align: middle !important;
+}
+
+
+/* Header
+-----------------------------------------------------------------------------*/
+#header {
+	height: 50px;
+}
+
+
+/* Middle
+-----------------------------------------------------------------------------*/
+#middle {
+	width: 100%;
+	padding: 0 0 40px;
+	height: 1%;
+	position: relative;
+}
+#middle:after {
+	content: '.';
+	display: block;
+	clear: both;
+	visibility: hidden;
+	height: 0;
+}
+#container {
+	width: 100%;
+	float: left;
+	/* overflow: hidden; */
+}
+#content {
+	/* padding: 0 0 0 220px; */
+	padding: 0;
+}
+
+
+/* Sidebar Left
+-----------------------------------------------------------------------------*/
+#sideLeft {
+	float: left;
+	width: 200px;
+	margin-left: -100%;
+	position: relative;
+	background: #B5E3FF;
+}
+
+
+/* Footer
+-----------------------------------------------------------------------------*/
+#footer {
+	width: 100%;
+	margin: -40px auto 0;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	position: relative;
+}
+
+.navbar-fixed-top .container, .navbar-fixed-bottom .container
+{
+	width: 1000px;
+}
+
+.navbar .brand
+{
+}
+
+.navbar a
+{
+	cursor: pointer;
+}
+
+.btn-toolbar
+{
+	margin: 0;
+}
+
+.pagination a
+{
+	text-decoration: none;
+}
+
+.pagination li.current a
+{
+	background: #F5F5F5;
+	color: #999999;
+}
+
+.form-actions
+{
+	padding-left: 165px !important;
+}
+
+.red
+{
+	color: red;
+}
+
+.green
+{
+	color: green;
+}
+
+.right
+{
+	float: right;
+}
+
+.btn-group > .btn:hover, .btn-group > .btn:focus, .btn-group > .btn:active, .btn-group > .btn.active {
+    z-index: 1;
+}
+
+
+.dn
+{
+	display: none !important;
+}
+
+.gallery
+{
+}
+
+	.gallery .control
+	{
+		text-align: center;
+		margin: 0 0 10px 0;
+	}
+	
+	.gallery li
+	{
+		display: inline-block;
+		margin: 0 10px 10px 0;
+	}
+
+.clear-cache
+{
+	cursor: pointer;
+}
+
+.btn-group > .btn:first-child
+{
+	padding-bottom: 4px;
+}
+
+.themes
+{
+}
+
+	.themes li
+	{
+		float: left;
+		width: 300px;
+		margin: 0 20px 20px 0;
+		list-style: none;
+	}
+
+		.themes li p
+		{
+			margin-bottom: 5px;
+		}
+		
+		.themes li h3
+		{
+			margin-bottom: 0;
+			font-weight: 100;
+		}
+		
+		.themes li figure
+		{
+			width: 300px;
+			height: 225px;
+			overflow: hidden;
+			text-align: center;
+			border: 1px solid #F1F1F1;
+			padding: 4px;
+			background: #fff;
+		}
+
+	    .themes li figure:hover
+		{
+			border: 1px solid #D2D2D2;
+		}
+
+			.themes li figure img
+			{
+			}
+
+			.themes li figure figcaption
+			{
+			}
+			
+	.themes li a
+	{
+		
+	}
+
+
+			

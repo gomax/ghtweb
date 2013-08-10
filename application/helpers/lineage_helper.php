@@ -1,0 +1,413 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+
+/**
+ * Возвращает название замка по его ID
+ * 
+ * @param integer $castle_id
+ * 
+ * @return string
+ */
+if(!function_exists('get_castle_name'))
+{
+    function get_castle_name($castle_id = 0)
+    {
+        $CI =& get_instance();
+        
+        $castles = $CI->config->item('castles', 'lineage');
+        
+        if(isset($castles[$castle_id]))
+        {
+            return $castles[$castle_id];
+        }
+        
+        return 'Нет замка';
+    }
+}
+
+/**
+ * Возвращает название форта по его ID
+ * 
+ * @param integer $fort_id
+ * 
+ * @return string
+ */
+if(!function_exists('get_fort_name'))
+{
+    function get_fort_name($fort_id = 0)
+    {
+        $CI =& get_instance();
+        
+        $forts = $CI->config->item('forst');
+        
+        if(isset($forts[$fort_id]))
+        {
+            return $forts[$fort_id];
+        }
+        
+        return 'n/a';
+    }
+}
+
+/**
+ * Время проведенное в игре
+ * 
+ * @return string
+ */
+if(!function_exists('online_time'))
+{
+    function online_time($time)
+    {
+        //$days    = floor($time / 86400);
+        //$time    = $time - ($days * 86400);
+        $hours   = floor($time / 3600);
+        $time    = $time - ($hours * 3600);
+        $minutes = floor($time / 60);
+
+        return $hours . ' ' . plural($hours, array('час', 'часа', 'часов')) . ' ' .
+            $minutes . ' ' . plural($minutes, array('минута', 'минуты', 'минут'));
+    }
+}
+
+
+if(!function_exists('plural'))
+{
+    function plural($n, array $str)
+    {
+        return $n%10==1&&$n%100!=11?$str[0]:($n%10>=2&&$n%10<=4&&($n%100<10||$n%100>=20)?$str[1]:$str[2]);
+    }
+}
+
+/**
+ * Шифрование пароля для аккаунта
+ *
+ * @param string $pass
+ * @param string $type
+ * 
+ * @return string
+ */
+if(!function_exists('pass_encode'))
+{
+    function pass_encode($pass, $type = 'sha1')
+    {
+        if ($type == 'wirlpool')
+        {
+            return base64_encode(hash('whirlpool', $pass, true));
+        }
+        
+        return base64_encode(pack('H*', sha1(utf8_encode($pass))));
+    }
+}
+
+/**
+ * Расчёт координат игроков на online карте
+ */
+/*if(!function_exists('get_online_map_position'))
+{
+    function get_online_map_position($point_x, $point_y)
+    {
+        $map_x = 1807 / 100;
+        $map_y = 2613 / 100;
+        
+        $x = ($point_x + 130000) / (1807*2);
+        $y = ($point_y + 0) / (2613*2);
+        
+        $x = $map_x * $x;
+        $y = $map_y * $y + 1295;
+        
+        return 'margin:' . $y . 'px 0 0 ' . $x . 'px;';
+    }
+}*/
+
+// Список городов для телепорта
+if(!function_exists('city_for_teleport'))
+{
+    function city_for_teleport()
+    {
+        $CI =& get_instance();
+        
+        $coordinats = $CI->config->item('list_city', 'lineage');
+        
+        $result = array();
+        
+        foreach($coordinats as $id => $val)
+        {
+            $result[$id] = $val['name'];
+        }
+        
+        return $result;
+    }
+}
+
+/**
+ * Возвращает координаты внутри города
+ * 
+ * @param integer $city_id
+ * 
+ * @return array
+ */
+if(!function_exists('coordinates_for_teleport'))
+{
+    function coordinates_for_teleport($city_id)
+    {
+        $CI =& get_instance();
+        
+        $citys = $CI->config->item('list_city', 'lineage');
+        
+        return (isset($citys[$city_id]) ? $citys[$city_id] : '');
+    }
+}
+
+
+/**
+ * Возвращает название класса по его ID
+ * 
+ * @param integer $class_id
+ * 
+ * @return string
+ */
+if(!function_exists('get_class_name_by_id'))
+{
+    function get_class_name_by_id($class_id = 0)
+    {
+        $class_id = (int) $class_id;
+
+        $CI =& get_instance();
+        
+        $class_list = $CI->config->item('class_list', 'lineage');
+
+        return (isset($class_list[$class_id]['name']) ? $class_list[$class_id]['name'] : 'n/a');
+    }
+}
+
+/**
+ * Возвращает название расы
+ *
+ * @param integer $class_id
+ *
+ * @return string
+ */
+if(!function_exists('get_race_by_class_id'))
+{
+    function get_race_by_class_id($class_id, $return_name = TRUE)
+    {
+        $class_id = (int) $class_id;
+
+        $CI =& get_instance();
+
+        $class_list = $CI->config->item('class_list', 'lineage');
+
+        return (isset($class_list[$class_id]['race']) ? ($return_name ? get_class_name_by_id($class_list[$class_id]['race']) : $class_list[$class_id]['race']) : '');
+    }
+}
+
+/**
+ * Возвращает название расы по её ID
+ * 
+ * @param integer $race_id
+ * 
+ * @return string
+ */
+if(!function_exists('get_race_name_by_name_by_id'))
+{
+    function get_race_name_by_name_by_id($race_id = 0)
+    {
+        $race_id = (int) $race_id;
+        
+        if($race_id < 0)
+        {
+            return false;
+        }
+        
+        $CI =& get_instance();
+
+        $races = $CI->config->item('race_list', 'lineage');
+
+        return (isset($races[$race_id]['name']) ? $races[$race_id]['name'] : '');
+    }
+}
+
+if(!function_exists('get_stats_name'))
+{
+    function get_stats_name($name)
+    {
+        $return = '';
+
+        switch($name)
+        {
+            case 'total':
+                $return = 'Общая';
+                break;
+            case 'pvp':
+                $return = 'Топ ПВП';
+                break;
+            case 'pk':
+                $return = 'Топ ПК';
+                break;
+            case 'clans':
+                $return = 'Кланы';
+                break;
+            case 'castles':
+                $return = 'Замки';
+                break;
+            case 'online':
+                $return = 'В игре';
+                break;
+            case 'top':
+                $return = 'ТОП';
+                break;
+            case 'rich':
+                $return = 'Богачи';
+                break;
+        }
+
+        return $return;
+    }
+}
+
+/**
+ * Возвращает название расы
+ *
+ * @param string $race_name
+ *
+ * @return string
+ */
+if(!function_exists('get_race_name_by_name'))
+{
+    function get_race_name_by_name($race_name)
+    {
+        $name = '';
+
+        switch($race_name)
+        {
+            case 'human':
+                $name = 'Люди';
+                break;
+            case 'elf':
+                $name = 'Эльфы';
+                break;
+            case 'dark_elf':
+                $name = 'Тёмные Эльфы';
+                break;
+            case 'orc':
+                $name = 'Орки';
+                break;
+            case 'dwarf':
+                $name = 'Гномы';
+                break;
+            case'kamael':
+                $name = 'Камаэли';
+                break;
+        }
+
+        return $name;
+    }
+}
+
+
+
+/**
+ * Возвращает отформатированное время последнего визита пользователя в игру
+ * 
+ * @return string
+ */
+if(!function_exists('lastactive'))
+{
+    function lastactive($time)
+    {
+        return ((int) $time > 0 ? date('Y-m-d H:i:s', substr($time, 0, 10)) : 'n/a');
+    }
+}
+
+/**
+ * Определяет цвет у зоточки
+ *
+ * @return string
+ */
+if(!function_exists('definition_enchant_color'))
+{
+    function definition_enchant_color($enchant_level = 0)
+    {
+        $color = 'black';
+
+        if($enchant_level == 0)
+        {
+            $color = 'black';
+        }
+        elseif($enchant_level < 10)
+        {
+            $color = '#6AA3FF';
+        }
+        elseif($enchant_level < 16)
+        {
+            $color = '#0058EA';
+        }
+        elseif($enchant_level >= 16)
+        {
+            $color = 'red';
+        }
+
+        return $color;
+    }
+}
+
+if(!function_exists('get_normal_server_name'))
+{
+    function get_normal_server_name($type)
+    {
+        $CI =& get_instance();
+
+        $servers = $CI->config->item('types_of_servers', 'lineage');
+
+        return (isset($servers[$type]) ? $servers[$type] : '');
+    }
+}
+
+if(!function_exists('fake_online'))
+{
+    function fake_online($online, $percent)
+    {
+        return ceil($online * $percent / 100);
+    }
+}
+
+if(!function_exists('get_normal_name_for_rates'))
+{
+    function get_normal_name_for_rates($name)
+    {
+        $return = '';
+
+        switch($name)
+        {
+            case 'exp':
+                $return = 'Exp';
+                break;
+            case 'sp':
+                $return = 'Sp';
+                break;
+            case 'adena':
+                $return = 'Adena';
+                break;
+            case 'items':
+                $return = 'Items';
+                break;
+            case 'spoil':
+                $return = 'Spoil';
+                break;
+            case 'q_drop':
+                $return = 'Quest drop';
+                break;
+            case 'q_reward':
+                $return = 'Quest reward';
+                break;
+            case 'rb':
+                $return = 'Reid boss';
+                break;
+            case 'erb':
+                $return = 'Epic Reid boss';
+                break;
+        }
+
+        return $return;
+    }
+}
