@@ -671,24 +671,6 @@ form
 	overflow: hidden;
 }
 
-.captcha
-{
-	cursor: pointer;
-	border: 1px solid #ccc;
-	padding: 2px;
-	width: 106px;
-	height: 36px;
-	position: relative;
-}
-
-	.captcha .img-loader-captcha
-	{
-		position: absolute;
-		top: 37%;
-		left: 44%;
-	}
-
-
 .alert
 {
 	padding: 10px;

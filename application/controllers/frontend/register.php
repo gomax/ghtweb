@@ -4,9 +4,7 @@ class Register extends Controllers_Frontend_Base
 {
 	public function index()
 	{
-        $message = '';
-
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
 
@@ -16,7 +14,11 @@ class Register extends Controllers_Frontend_Base
             $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|callback__check_user_email');
             $this->form_validation->set_rules('password', 'Пароль', 'trim|required|min_length[4]');
             $this->form_validation->set_rules('repassword', 'Повтор пароля', 'trim|required|matches[password]');
-            $this->form_validation->set_rules('captcha', 'Код с картинки', 'trim|required|callback__check_captcha');
+
+            if($this->config->item('recaptcha_register'))
+            {
+                $this->form_validation->set_rules('recaptcha_response_field', 'Код с картинки', 'trim|required|check_recaptcha');
+            }
 
 
             if($this->form_validation->run())
@@ -76,7 +78,7 @@ class Register extends Controllers_Frontend_Base
                             ':activation_link' => $activation_link,
                         ));
 
-                        $message = Message::true('Регистрация прошла удачно!<br />На email <b>' . $email . '</b> отправлены инструкции по активации аккаунта');
+                        $this->view_data['message'] = Message::true('Регистрация прошла удачно!<br />На email <b>' . $email . '</b> отправлены инструкции по активации аккаунта');
                     }
                     else
                     {
@@ -94,42 +96,41 @@ class Register extends Controllers_Frontend_Base
                             ':password' => $password,
                         ));
 
-                        $message = Message::true('Регистрация прошла удачно, приятной игры');
+                        $this->view_data['message'] = Message::true('Регистрация прошла удачно, приятной игры');
                     }
 
                     send_mail($data_db['email'], $email_tpl['title'], $email_tpl['text']);
                 }
                 else
                 {
-                    $message = Message::false('Ошибка! Обратитесь к Администрации сайта');
+                    $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
                 }
 
             }
 
             if(validation_errors())
             {
-                $message = Message::false(validation_errors())  ;
+                $this->view_data['message'] = Message::false(validation_errors())  ;
             }
         }
 
         if($this->session->flashdata('message'))
         {
-            $message = $this->session->flashdata('message');
+            $this->view_data['message'] = $this->session->flashdata('message');
         }
 
-        $captcha = $this->captcha->get_img();
+        $this->view_data['recaptcha'] = FALSE;
+
+        if($this->config->item('recaptcha_register') == 1)
+        {
+            $this->view_data['recaptcha'] = $this->recaptcha->recaptcha_get_html();
+        }
 
 
         // Meta
         $this->set_meta_title('Регистрация Мастер аккаунта');
 
-
-        $view_data = array(
-            'message' => $message,
-            'captcha' => $captcha['image'],
-        );
-
-        $this->view_data['content'] = $this->load->view('register', $view_data, TRUE);
+        $this->view_data['content'] = $this->load->view('register', $this->view_data, TRUE);
 	}
     
     /**

@@ -16,15 +16,14 @@ class Login extends Controllers_Frontend_Base
     
 	public function index()
 	{
-        $auth    = true;
-        $message = '';
+        $auth = true;
 
         $login_attempts_data = $this->login_attempts_model->get_data();
 
         if(isset($login_attempts_data['count']) && $login_attempts_data['count'] >= $this->config->item('count_failed_login_attempts'))
         {
             $auth = false;
-            $message = Message::info('Для Вас вход в личный кабинет заблокирован за попытку перебора пароля');
+            $this->view_data['message'] = Message::info('Для Вас вход в личный кабинет заблокирован за попытку перебора пароля');
         }
 
         // Праверяю время блокировки
@@ -32,7 +31,6 @@ class Login extends Controllers_Frontend_Base
         {
             $this->login_attempts_model->clear();
             $auth = true;
-            $message = '';
         }
 
         if($auth === true && isset($_POST['submit']))
@@ -43,8 +41,12 @@ class Login extends Controllers_Frontend_Base
             
             $this->form_validation->set_rules('login', 'Логин', 'trim|required|xss_clean|min_length[4]|max_length[20]');
             $this->form_validation->set_rules('password', 'Пароль', 'trim|required|min_length[4]');
-            $this->form_validation->set_rules('captcha', 'Код с картинки', 'trim|required|callback__check_captcha');
-            
+
+            if($this->config->item('recaptcha_login'))
+            {
+                $this->form_validation->set_rules('recaptcha_response_field', 'Код с картинки', 'trim|required|check_recaptcha');
+            }
+
             if($this->form_validation->run())
             {
                 $login    = $this->input->post('login', true);
@@ -63,15 +65,15 @@ class Login extends Controllers_Frontend_Base
 
                     if($user_data['activated'] == 0)
                     {
-                        $message = Message::false('Аккаунт не активирован');
+                        $this->view_data['message'] = Message::false('Аккаунт не активирован');
                     }
                     elseif($user_data['protected_ip'] != '' && !in_array($this->input->ip_address(), $allowed_ip))
                     {
-                        $message = Message::false('С Вашего IP нельзя войти в личный кабинет');
+                        $this->view_data['message'] = Message::false('С Вашего IP нельзя войти в личный кабинет');
                     }
                     elseif($user_data['banned'])
                     {
-                        $message = Message::false('Мастер Аккаунт заблокирован, причина: ' . $user_data['banned_reason']);
+                        $this->view_data['message'] = Message::false('Мастер Аккаунт заблокирован, причина: ' . $user_data['banned_reason']);
                     }
                     elseif($user_data['password'] == $this->auth->password_encript($password))
                     {
@@ -81,35 +83,34 @@ class Login extends Controllers_Frontend_Base
                     }
                     else
                     {
-                        $message = Message::false('Пароль от аккаунта введен неверно');
+                        $this->view_data['message'] = Message::false('Пароль от аккаунта введен неверно');
 
                         $this->login_attempts_model->add_false_attempt();
                     }
                 }
                 else
                 {
-                    $message = Message::false('Аккаунт не найден');
+                    $this->view_data['message'] = Message::false('Аккаунт не найден');
                 }
             }
 
             if(validation_errors())
             {
-                $message = Message::false(validation_errors());
+                $this->view_data['message'] = Message::false(validation_errors());
             }
         }
-        
-        
-        $captcha = $this->captcha->get_img();
 
+
+        $this->view_data['recaptcha'] = FALSE;
+
+        if($this->config->item('recaptcha_login') == 1)
+        {
+            $this->view_data['recaptcha'] = $this->recaptcha->recaptcha_get_html();
+        }
 
         // Meta
         $this->set_meta_title('Вход в Мастер аккаунт');
 
-        $view_data = array(
-            'message' => $message,
-            'captcha' => $captcha['image'],
-        );
-
-        $this->view_data['content'] = $this->load->view('login', $view_data, TRUE);
+        $this->view_data['content'] = $this->load->view('login', $this->view_data, TRUE);
 	}
 }

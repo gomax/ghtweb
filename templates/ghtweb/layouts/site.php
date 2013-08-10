@@ -103,9 +103,6 @@
 		<script type="text/javascript" src="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/helpers/jquery.fancybox-thumbs.js"></script>
 	<?php } ?>
 	
-	<!-- CAPTCHA -->
-	<script type="text/javascript" src="/resources/libs/captcha_refresh.js"></script>
-	
 	<script type="text/javascript" src="<?php echo TPL ?>js/main.js"></script>
 	
 </body>

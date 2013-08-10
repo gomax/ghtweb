@@ -5,14 +5,18 @@ class Forgotten_password extends Controllers_Frontend_Base
 {
     public function index()
 	{
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
 
             $this->form_validation->set_error_delimiters('', '<br />');
 
             $this->form_validation->set_rules('login', 'Логин', 'trim|required|xss_clean|min_length[4]|max_length[20]|callback__check_login_exists');
-            $this->form_validation->set_rules('captcha', 'Код с картинки', 'trim|required|callback__check_captcha');
+
+            if($this->config->item('recaptcha_forgotten_password'))
+            {
+                $this->form_validation->set_rules('recaptcha_response_field', 'Код с картинки', 'trim|required|check_recaptcha');
+            }
 
             if($this->form_validation->run())
             {
@@ -32,11 +36,11 @@ class Forgotten_password extends Controllers_Frontend_Base
 
                     if($this->users_model->edit($data_db, $data_db_where))
                     {
-                        $message = Message::true('Ваш новый пароль: ' . $new_password);
+                        $this->view_data['message'] = Message::true('Ваш новый пароль: ' . $new_password);
                     }
                     else
                     {
-                        $message = Message::false('Ошибка! Обратитесь к Администрации сайта');
+                        $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
                     }
                 }
                 else
@@ -75,7 +79,7 @@ class Forgotten_password extends Controllers_Frontend_Base
                     {
                         if(send_mail($this->login_data['email'], $email_tpl['title'], $email_tpl['text']))
                         {
-                            $message = Message::true('На Email указанный при регистрации отправлены инструкции по восстановлению пароля');
+                            $this->view_data['message'] = Message::true('На Email указанный при регистрации отправлены инструкции по восстановлению пароля');
                         }
                         else
                         {
@@ -83,40 +87,41 @@ class Forgotten_password extends Controllers_Frontend_Base
                                 'login' => $this->login_data['login'],
                             ));
 
-                            $message = Message::false('Ошибка! Обратитесь к Администрации сайта');
+                            $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
                         }
                     }
                     else
                     {
-                        $message = Message::false('Ошибка! Обратитесь к Администрации сайта');
+                        $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
                     }
                 }
             }
 
             if(validation_errors())
             {
-                $message = Message::false(validation_errors());
+                $this->view_data['message'] = Message::false(validation_errors());
             }
         }
 
 
         if($this->session->flashdata('message'))
         {
-            $message = $this->session->flashdata('message');
+            $this->view_data['message'] = $this->session->flashdata('message');
         }
 
-        $captcha = $this->captcha->get_img();
+
+        $this->view_data['recaptcha'] = FALSE;
+
+        if($this->config->item('recaptcha_forgotten_password') == 1)
+        {
+            $this->view_data['recaptcha'] = $this->recaptcha->recaptcha_get_html();
+        }
 
 
         // Meta
         $this->set_meta_title('Восстановление пароля от Мастер аккаунта');
 
-        $view_data = array(
-            'message' => isset($message) ? $message : '',
-            'captcha' => $captcha['image'],
-        );
-
-        $this->view_data['content'] = $this->load->view('forgotten_password', $view_data, TRUE);
+        $this->view_data['content'] = $this->load->view('forgotten_password', $this->view_data, TRUE);
 	}
     
     public function step2($hash)

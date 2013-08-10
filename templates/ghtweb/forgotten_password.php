@@ -12,18 +12,14 @@
             <input type="text" name="login" id="login" />
         </div>
     </div>
-    <div class="row">
-        <label></label>
-        <div class="controls">
-            <div class="captcha"><?php echo $captcha ?></div>
+    <?php if($recaptcha !== FALSE) { ?>
+        <div class="row">
+            <label></label>
+            <div class="controls">
+                <div class="captcha"><?php echo $recaptcha ?></div>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <label for="captcha">Код с картинки</label>
-        <div class="controls">
-            <input type="text" name="captcha" id="captcha" />
-        </div>
-    </div>
+    <?php } ?>
     <div class="row">
 		<label></label>
 		<div class="controls">

@@ -3,7 +3,10 @@
 
 class GW_Controller extends CI_Controller
 {
-    public $view_data   = array();
+    public $view_data   = array(
+        'message' => '',
+    );
+
     public $view_layout = 'layouts/site';
 
     
@@ -36,6 +39,23 @@ class GW_Controller extends CI_Controller
         $settings = $this->settings_model->get_settings_list();
         $this->config->set_item($settings);
         unset($settings);
+
+        // Recaptcha
+        $this->load->library('recaptcha');
+
+        if($this->config->item('migration_enabled') === TRUE)
+        {
+            $this->load->library('Migration');
+
+            // Update DB
+            if($this->migration->get_db_version() < $this->migration->get_fs_version())
+            {
+                $this->migration->latest();
+                // $this->migration->version(0);
+            }
+        }
+
+
 
 
         if(!defined('TPL'))

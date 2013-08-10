@@ -38,7 +38,6 @@
 */
 
 $autoload['packages'] = array(
-    APPPATH . 'modules/captcha',
     APPPATH . 'modules/message',
     APPPATH . 'modules/server_status',
     APPPATH . 'modules/top_pvp',
@@ -59,7 +58,7 @@ $autoload['packages'] = array(
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('Cache', 'database', 'session', 'auth', 'Captcha', 'Message', 'Server_status', 'Top_pvp', 'Top_pk', 'Forum_threads');
+$autoload['libraries'] = array('Cache', 'database', 'session', 'auth', 'Message', 'Server_status', 'Top_pvp', 'Top_pk', 'Forum_threads');
 
 
 /*
@@ -87,7 +86,7 @@ $autoload['helper'] = array('array_column', 'main', 'url', 'form', 'lineage');
 |
 */
 
-$autoload['config'] = array('application');
+$autoload['config'] = array('application', 'migration');
 
 
 /*
