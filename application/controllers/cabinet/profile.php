@@ -5,14 +5,12 @@ class Profile extends Controllers_Cabinet_Base
 {
 	public function index()
 	{
-        $message = '';
-
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
             
             $this->form_validation->set_error_delimiters('', '<br />');
-            
+
             $this->form_validation->set_rules('new_password', 'Новый пароль', 'trim|min_length[4]');
             $this->form_validation->set_rules('renew_password', 'Повтор нового пароля', 'trim|min_length[4]|matches[new_password]');
             $this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
@@ -20,109 +18,107 @@ class Profile extends Controllers_Cabinet_Base
 
             if($this->form_validation->run())
             {
-                $data_db = array(
+                $data_tmp = array(
                     'email' => $_POST['email'],
                 );
 
                 if($this->input->post('new_password'))
                 {
-                    $data_db['password'] = $this->auth->password_encript($_POST['new_password']);
+                    $data_tmp['password'] = $this->auth->password_encript($_POST['new_password']);
                 }
+
+                $data_tmp['protected_ip'] = '';
 
                 if($this->input->post('protected_ip'))
                 {
-                    $data_db['protected_ip'] = preg_replace('/\s+/', '', $_POST['protected_ip']);
-                }
+                    $data_tmp['protected_ip'] = array();
 
-                $activation_link = md5(uniqid(rand()));
+                    $ips = explode("\n", $_POST['protected_ip']);
 
-                $data_db_tmp = array(
-                    'user_id' => $this->auth->get('user_id'),
-                    'data'    => serialize($data_db),
-                    'hash'    => $activation_link,
-                );
-
-                $this->load->model(array('email_templates_model', 'users_tmp_model'));
-
-                $res = $this->users_tmp_model->add($data_db_tmp);
-
-                if(is_numeric($res))
-                {
-                    $email_tpl = $this->email_templates_model->get_template('change_profile');
-
-                    if(!$email_tpl)
+                    foreach($ips as $ip)
                     {
-                        $email_tpl['text']  = 'Ошибка';
-                        $email_tpl['title'] = 'Шаблон для письма не найден';
+                        $ip = str_replace(array("\n", "\r"), '', trim($ip));
+                        $data_tmp['protected_ip'][] = $ip;
                     }
 
-                    $email_tpl['text'] = strtr($email_tpl['text'], array(
-                        ':site_url'        => site_url(),
-                        ':login'           => $this->auth->get('login'),
-                        ':activation_link' => anchor('cabinet/profile/change/' . $activation_link, 'ссылка'),
-                    ));
-
-                    send_mail($this->auth->get('email'), $email_tpl['title'], $email_tpl['text']);
-
-                    $message = Message::info('Необходимо подтверждение данных с email для обновления профиля, ссылка действительна ~' . $this->config->item('profile_change_time') . ' минут.');
+                    $data_tmp['protected_ip'] = json_encode($data_tmp['protected_ip']);
                 }
-                else
+
+
+                $data_tmp['user_id'] = $this->auth->get('user_id');
+
+                $activation_link = md5(uniqid(rand()) . $data_tmp['email']);
+
+                $this->cache->ignore = TRUE;
+                $this->cache->save('tmp/' . $activation_link, $data_tmp, $this->config->item('profile_change_time') * 60);
+                $this->cache->ignore = FALSE;
+
+                $this->load->model('email_templates_model');
+
+                $email_tpl = $this->email_templates_model->get_template('change_profile');
+
+                if(!$email_tpl)
                 {
-                    $message = Message::false('Ошибка! Обратитесь к Администрации сайта');
+                    $email_tpl['text']  = 'Ошибка';
+                    $email_tpl['title'] = 'Шаблон для письма не найден';
                 }
+
+                $email_tpl['text'] = strtr($email_tpl['text'], array(
+                    ':site_url'        => site_url(),
+                    ':login'           => $this->auth->get('login'),
+                    ':activation_link' => anchor('cabinet/profile/change/' . $activation_link, 'ссылка'),
+                ));
+
+                send_mail($this->auth->get('email'), $email_tpl['title'], $email_tpl['text']);
+
+                $this->view_data['message'] = Message::info('Необходимо подтверждение данных с email для обновления профиля, ссылка действительна ~' . $this->config->item('profile_change_time') . ' минут.');
             }
 
             if(validation_errors())
             {
-                $message = Message::false(validation_errors());
+                $this->view_data['message'] = Message::false(validation_errors());
             }
         }
 
         // Meta
         $this->set_meta_title('Редактирование профиля');
 
-        $view_data = array(
-            'message' => $message,
-        );
-
-        $this->view_data['content'] = $this->load->view('cabinet/profile', $view_data, TRUE);
+        $this->view_data['content'] = $this->load->view('cabinet/profile', $this->view_data, TRUE);
 	}
 
     public function change($hash)
     {
-        $this->load->model('users_tmp_model');
+        $cache_name = 'tmp/' . $hash;
+        $data       = $this->cache->get($cache_name);
 
-        $time = time() - $this->config->item('profile_change_time') * 60;
-
-        $this->db->where('hash', $hash);
-        $this->db->where('created_at >', db_date($time));
-        $this->db->order_by('created_at', 'DESC');
-        $hash_data = $this->db->get($this->users_tmp_model->table, 1)->row_array();
-
-        if($hash_data)
+        if($data === FALSE)
         {
-            $data_db = unserialize($hash_data['data']);
-
-            $data_db_where = array(
-                'user_id' => $this->auth->get('user_id'),
-            );
-
-            if($this->users_model->edit($data_db, $data_db_where))
-            {
-                $this->users_tmp_model->del(array(
-                    'user_id' => $data_db_where['user_id']
-                ));
-
-                $message = Message::true('Профиль изменён');
-            }
-            else
-            {
-                $message = Message::false('Ошибка! Обратитесь к Администрации сайта');
-            }
+            $message = Message::false('Время ключа истекло');
         }
         else
         {
-            $message = Message::false('Ключ для изменения данных не найден');
+            if($data['user_id'] == $this->auth->get('user_id'))
+            {
+                unset($data['user_id']);
+
+                $data_db_where = array(
+                    'user_id' => $this->auth->get('user_id'),
+                );
+
+                if($this->users_model->edit($data, $data_db_where))
+                {
+                    $message = Message::true('Профиль изменен');
+                    $this->cache->delete($cache_name);
+                }
+                else
+                {
+                    $message = Message::false('Ошибка! Обратитесь к Администрации сайта');
+                }
+            }
+            else
+            {
+                $message = Message::false('Отказано в доступе');
+            }
         }
 
         $this->session->set_flashdata('message', $message);

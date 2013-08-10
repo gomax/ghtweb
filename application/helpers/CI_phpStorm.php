@@ -67,6 +67,7 @@
  * @property CI_Utf8 $utf8                        Provides support for UTF-8 environments
  * @property CI_Security $security                Security Class, xss, csrf, etc...
  * @property Auth $auth                           Auth
+ * @property Cache $cache                         Cache
  * @property Lineage $lineage                     Lineage
  */
 class CI_Controller extends my_models

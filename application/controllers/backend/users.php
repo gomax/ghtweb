@@ -78,7 +78,7 @@ class Users extends Controllers_Backend_Base
         }
         
         // Save
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
 
@@ -96,11 +96,28 @@ class Users extends Controllers_Backend_Base
                 
                 if($this->input->post('password'))
                 {
-                    $data_db['password'] = $this->auth->password_encript($this->input->post('password', true));
+                    $data_db['password'] = $this->auth->password_encript($this->input->post('password'));
                 }
                 else
                 {
                     $data_db['password'] = $this->input->post('old_password', true);
+                }
+
+                $data_db['protected_ip'] = '';
+
+                if($this->input->post('protected_ip'))
+                {
+                    $data_db['protected_ip'] = array();
+
+                    $ips = explode("\n", $this->input->post('protected_ip'));
+
+                    foreach($ips as $ip)
+                    {
+                        $ip = str_replace(array("\n", "\r"), '', trim($ip));
+                        $data_db['protected_ip'][] = $ip;
+                    }
+
+                    $data_db['protected_ip'] = json_encode($data_db['protected_ip']);
                 }
                 
                 // Сбрасываю хэш, чтобы юзера выкинуло

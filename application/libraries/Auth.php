@@ -50,6 +50,11 @@ class Auth
                 $this->_user_data = $query;
                 $this->_user_data['is_logged'] = TRUE;
 
+                if($this->_user_data['protected_ip'])
+                {
+                    $this->_user_data['protected_ip'] = json_decode($this->_user_data['protected_ip'], TRUE);
+                }
+
                 if(strtotime($this->_user_data['last_access']) < (time() - ($this->_time_for_user_offline * 60)))
                 {
                     $data_db = array(

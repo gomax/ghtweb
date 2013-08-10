@@ -35,9 +35,10 @@
         </div>
     </div>
     <div class="row">
-        <label for="protected_ip">IP адреса (если больше одного то через запятую)</label>
+        <label for="protected_ip">IP адреса</label>
         <div class="controls">
-            <textarea name="protected_ip" id="protected_ip" cols="20" rows="4"><?php echo $this->auth->get('protected_ip') ?></textarea>
+            <textarea name="protected_ip" id="protected_ip" cols="20" rows="4"><?php echo (is_array($this->auth->get('protected_ip')) ? implode("\n", $this->auth->get('protected_ip')) : '') ?></textarea>
+            <p class="help-block">Привязка Мастер аккаунта к IP адресу(ам)<br>каждый новый IP адрес с новой строки</p>
         </div>
     </div>
     <div class="row">

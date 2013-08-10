@@ -17,19 +17,11 @@
         </tr>
         <tr>
             <td>Привязка аккаунта к IP</td>
-            <td><?php echo ($content['protected_ip'] == '' ? '<span class="label label-important">Нет</span>' : '<span class="label label-success">Да</span> [' . $content['protected_ip'] . ']') ?></td>
+            <td><?php echo ($content['protected_ip'] == '' ? '<span class="label label-important">Нет</span>' : '<span class="label label-success">Да</span> [' . implode(', ', json_decode($content['protected_ip'], TRUE)) . ']') ?></td>
         </tr>
         <tr>
         	<td>Дата регистрации</td>
         	<td><?php echo $content['created_at'] ?></td>
-        </tr>
-        <tr>
-        	<td>Дата последней авторизации</td>
-        	<td><?php echo ($content['last_login'] == '' ? 'Ещё не заходил' : $content['last_login']) ?></td>
-        </tr>
-        <tr>
-        	<td>IP с которого последний раз заходили на аккаунт</td>
-        	<td><?php echo ($content['last_ip'] == '' ? 'Ещё не заходил' : $content['last_ip']) ?></td>
         </tr>
     </table>
     
@@ -62,7 +54,8 @@
             <div class="control-group<?php echo (form_error('protected_ip') ? ' error' : '') ?>">
                 <label for="protected_ip" class="control-label">Защита аккаунта по IP</label>
                 <div class="controls">
-                    <input type="text" name="protected_ip" id="protected_ip" value="<?php echo set_value('protected_ip', $content['protected_ip']) ?>" class="span10" placeholder="Введите IP адрес к которому надо привязать аккаунт, если их несколько то через запятую" />
+                    <textarea name="protected_ip" cols="30" rows="10"><?php echo set_value('protected_ip', ($content['protected_ip'] != '' ? implode("\n", json_decode($content['protected_ip'], TRUE)) : '')) ?></textarea>
+                    <p class="help-block">каждый новый IP адрес с новой строки</p>
                     <?php if(form_error('protected_ip')) { ?>
                         <p class="help-block"><?php echo form_error('protected_ip') ?></p>
                     <?php } ?>

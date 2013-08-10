@@ -23,7 +23,6 @@
         <th width="3%">#</th>
     	<th width="25%">Логин</th>
         <th width="25%">Email</th>
-        <th width="15%">IP</th>
     	<th width="12%">Статус</th>
     	<th width="6%">Бан</th>
     	<th width="15%">Дата регистрации</th>
@@ -35,7 +34,6 @@
                 <td><?php echo $oO ?></td>
             	<td><?php echo $row['login'] ?></td>
                 <td><?php echo $row['email'] ?></td>
-                <td><?php echo $row['last_ip'] ?></td>
             	<td><?php echo ($row['activated'] ? '<span class="label label-success">Активирован</span>' : '<span class="label label-important">Не активирован</span>') ?></td>
             	<td><?php echo ($row['banned'] ? '<span class="label label-important">Да</span> <i class="icon-info-sign" rel="popover" data-content="' . ($row['banned_reason'] != '' ? $row['banned_reason'] : 'Не указана') . '" data-original-title="Причина бана"></i>' : '<span class="label label-success">Нет</span>') ?></td>
             	<td><?php echo $row['created_at'] ?></td>

@@ -48,14 +48,12 @@ class GW_Controller extends CI_Controller
             $this->load->library('Migration');
 
             // Update DB
-            if($this->migration->get_db_version() < $this->migration->get_fs_version())
+            if($this->migration->get_db_version() < $this->config->item('migration_version'))
             {
                 $this->migration->latest();
                 // $this->migration->version(0);
             }
         }
-
-
 
 
         if(!defined('TPL'))
@@ -284,36 +282,6 @@ class GW_Controller extends CI_Controller
     }
 
     /**
-     * Проверка валидности IP адреса(ов)
-     *
-     * @param string $ips (Список IP адресов через запятую)
-     *
-     * @return bool
-     */
-    public function _check_valid_ip($ips)
-    {
-        // Если IP не введены
-        if($ips == '')
-        {
-            return TRUE;
-        }
-
-
-        $ips = explode(',', $ips);
-
-        foreach($ips as $ip)
-        {
-            if(filter_var(trim($ip), FILTER_VALIDATE_IP) === FALSE)
-            {
-                $this->form_validation->set_message('_check_valid_ip', 'Один из IP адресов введён не верно');
-                return FALSE;
-            }
-        }
-
-        return TRUE;
-    }
-
-    /**
      * Возвращает массив серверов которые прицеплены к логину
      *
      * @param integer $login_id
@@ -343,6 +311,35 @@ class GW_Controller extends CI_Controller
         }
 
         return $return;
+    }
+
+    /**
+     * Проверка валидности IP адреса(ов)
+     *
+     * @param string $ips (Список IP адресов через запятую)
+     *
+     * @return bool
+     */
+    public function _check_valid_ip($ips)
+    {
+        // Если IP не введены
+        if($ips == '')
+        {
+            return TRUE;
+        }
+
+        $ips = explode("\n", $ips);
+
+        foreach($ips as $ip)
+        {
+            if(filter_var(trim($ip), FILTER_VALIDATE_IP) === FALSE)
+            {
+                $this->form_validation->set_message('_check_valid_ip', 'Один из IP адресов введен не верно');
+                return FALSE;
+            }
+        }
+
+        return TRUE;
     }
 
     public function set_meta_title($str)

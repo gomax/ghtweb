@@ -61,13 +61,17 @@ class Login extends Controllers_Frontend_Base
                 
                 if($user_data)
                 {
-                    $allowed_ip = explode(',', $user_data['protected_ip']);
+                    if($user_data['protected_ip'])
+                    {
+                        $user_data['protected_ip'] = json_decode($user_data['protected_ip'], TRUE);
+                    }
+
 
                     if($user_data['activated'] == 0)
                     {
                         $this->view_data['message'] = Message::false('Аккаунт не активирован');
                     }
-                    elseif($user_data['protected_ip'] != '' && !in_array($this->input->ip_address(), $allowed_ip))
+                    elseif(is_array($user_data['protected_ip']) && !in_array($this->input->ip_address(), $user_data['protected_ip']))
                     {
                         $this->view_data['message'] = Message::false('С Вашего IP нельзя войти в личный кабинет');
                     }
