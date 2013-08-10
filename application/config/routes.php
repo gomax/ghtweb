@@ -106,8 +106,6 @@ $route['backend/characters/(:num)/(:any)'] = 'backend/characters';
 $route['backend/character/(:num)/(:any)'] = 'backend/character';
 $route['backend/character/delete-item/(:num)/(:num)'] = 'backend/character/delete_item/$1/$2';
 
-
-$route['backend/news'] = 'backend/news';
 $route['backend/news'] = 'backend/news';
 
 /* End of file routes.php */

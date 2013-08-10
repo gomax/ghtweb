@@ -71,7 +71,7 @@ $autoload['libraries'] = array('database', 'session', 'auth', 'Captcha', 'Messag
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('main', 'url', 'form', 'lineage');
+$autoload['helper'] = array('array_column', 'main', 'url', 'form', 'lineage');
 
 
 /*

@@ -78,7 +78,7 @@ $config['uri_protocol']	= 'AUTO';
 | http://codeigniter.com/user_guide/general/urls.html
 */
 
-$config['url_suffix'] = '/';
+$config['url_suffix'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -90,7 +90,7 @@ $config['url_suffix'] = '/';
 | than english.
 |
 */
-$config['language']	= 'russian';
+$config['language']	= 'ru';
 
 /*
 |--------------------------------------------------------------------------
@@ -245,7 +245,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'Сюда вписать ключ';
+$config['encryption_key'] = 'Сюда вписать любой набор символов, они будут ключем';
 
 /*
 |--------------------------------------------------------------------------
@@ -336,7 +336,7 @@ $config['csrf_expire'] = 7200;
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = TRUE;
+$config['compress_output'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -349,7 +349,7 @@ $config['compress_output'] = TRUE;
 | regarding date handling.
 |
 */
-$config['time_reference'] = 'Europe/Moscow';
+$config['time_reference'] = 'GMT';
 
 
 /*

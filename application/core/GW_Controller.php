@@ -38,13 +38,13 @@ class GW_Controller extends CI_Controller
         // Достаю настройки
         $settings = $this->settings_model->get_settings_list();
         $this->config->set_item($settings);
+        unset($settings);
+
 
         if(!defined('TPL'))
         {
-            define('TPL', base_url() . 'templates/' . $settings['template'] . '/');
+            define('TPL', base_url() . 'templates/' . $this->config->item('template') . '/');
         }
-
-        unset($settings);
 
         // Сервера
         $this->l2_settings['servers'] = $this->servers_model->get_all();
@@ -61,11 +61,10 @@ class GW_Controller extends CI_Controller
         // Драйвер для Lineage
         $this->load->driver('Lineage');
 
-
         // Profiler
-        if(ENVIRONMENT == 'development' && !$this->input->is_ajax_request())
+        if($this->config->item('enable_profiler') && !$this->input->is_ajax_request())
         {
-            //$this->output->enable_profiler(TRUE);
+            $this->output->enable_profiler(TRUE);
         }
     }
 

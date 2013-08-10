@@ -1,13 +1,11 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 
+// Профайлер
+$config['enable_profiler'] = FALSE;
+
 // Кэш
 $config['cache_allow'] = TRUE;
-
-if(ENVIRONMENT == 'development')
-{
-    $config['cache_allow'] = FALSE;
-}
 
 // Время кэщирования для списка аккаунтов, в минутах (cabinet/accounts)
 $config['cache_game_accounts_time'] = 5;
@@ -23,6 +21,3 @@ $config['gallery_path'] = 'uploads/gallery';
 
 // Время ключа при смене данных в профиле (В минутах)
 $config['profile_change_time'] = 10;
-
-
-

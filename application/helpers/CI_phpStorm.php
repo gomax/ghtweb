@@ -30,7 +30,7 @@
  * @property CI_Benchmark $benchmark              This class enables you to mark points and calculate the time difference between them.<br />  Memory consumption can also be displayed.
  * @property CI_Calendar $calendar                This class enables the creation of calendars
  * @property CI_Cart $cart                        Shopping Cart Class
- * @property CI_Config $config                    This class contains functions that enable config files to be managed
+ * @property GW_Config $config                    This class contains functions that enable config files to be managed
  * @property CI_Controller $controller            This class object is the super class that every library in.<br />CodeIgniter will be assigned to.
  * @property CI_Email $email                      Permits email to be sent using Mail, Sendmail, or SMTP.
  * @property CI_Encrypt $encrypt                  Provides two-way keyed encoding using XOR Hashing and Mcrypt
@@ -41,7 +41,7 @@
  * @property CI_Image_lib $image_lib              Image Manipulation class
  * @property CI_Input $input                      Pre-processes global input data for security
  * @property CI_Lang $lang                        Language Class
- * @property CI_Loader $load                      Loads views and files
+ * @property GW_Loader $load                      Loads views and files
  * @property CI_Log $log                          Logging Class
  * @property CI_Model $model                      CodeIgniter Model Class
  * @property CI_Output $output                    Responsible for sending final output to browser
