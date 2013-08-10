@@ -1,135 +1,68 @@
-* {
-	margin: 0;
-	padding: 0;
-}
-html {
+html,
+body
+{
 	height: 100%;
 }
-body {
-	font: 12px/18px Arial, Tahoma, Verdana, sans-serif;
-	width: 100%;
-	height: 100%;
+body
+{
+	font-family: 'PT Sans';
 }
-a {
-	color: #0088CC;
+a
+{
 	outline: none;
-	text-decoration: none;
 }
-a:hover {
-	color: #005580;
-	text-decoration: underline;
-}
-p {
-	margin: 0 0 18px
-}
-img {
-	border: none;
-}
-input {
-	vertical-align: middle;
-}
-#wrapper {
-	width: 1000px;
-	margin: 0 auto;
+.wrapper {
 	min-height: 100%;
 	height: auto !important;
 	height: 100%;
 }
-th,td
+
+.alert
 {
-	vertical-align: middle !important;
+	margin-bottom: 0;
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	z-index: 9999;
 }
 
-
-/* Header
------------------------------------------------------------------------------*/
-#header {
-	height: 50px;
+.dropdown-toggle
+{
+	cursor: pointer;
 }
 
-
-/* Middle
------------------------------------------------------------------------------*/
-#middle {
-	width: 100%;
-	padding: 0 0 40px;
-	height: 1%;
-	position: relative;
-}
-#middle:after {
-	content: '.';
-	display: block;
-	clear: both;
-	visibility: hidden;
-	height: 0;
-}
-#container {
-	width: 100%;
-	float: left;
-	/* overflow: hidden; */
-}
-#content {
-	/* padding: 0 0 0 220px; */
-	padding: 0;
+.page-footer,
+.push
+{
+	height: 40px;
 }
 
-
-/* Sidebar Left
------------------------------------------------------------------------------*/
-#sideLeft {
-	float: left;
-	width: 200px;
-	margin-left: -100%;
-	position: relative;
-	background: #B5E3FF;
+.navbar
+{
+	margin-top: 15px;
+	font-family: Arial;
 }
 
-
-/* Footer
------------------------------------------------------------------------------*/
-#footer {
+.page-footer
+{
 	width: 100%;
 	margin: -40px auto 0;
-	height: 40px;
 	line-height: 40px;
 	text-align: center;
 	position: relative;
 }
 
-.navbar-fixed-top .container, .navbar-fixed-bottom .container
-{
-	width: 1000px;
-}
-
-.navbar .brand
-{
-}
-
-.navbar a
-{
-	cursor: pointer;
-}
-
-.btn-toolbar
-{
-	margin: 0;
-}
-
-.pagination a
-{
-	text-decoration: none;
-}
-
-.pagination li.current a
-{
-	background: #F5F5F5;
-	color: #999999;
-}
-
-.form-actions
-{
-	padding-left: 165px !important;
-}
+	.page-footer,
+	.page-footer a
+	{
+		color: #999;
+		text-transform: 1px 0 1px #fff;
+	}
+	
+	.page-footer a
+	{
+		text-decoration: underline;
+	}
 
 .red
 {
@@ -140,16 +73,6 @@ th,td
 {
 	color: green;
 }
-
-.right
-{
-	float: right;
-}
-
-.btn-group > .btn:hover, .btn-group > .btn:focus, .btn-group > .btn:active, .btn-group > .btn.active {
-    z-index: 1;
-}
-
 
 .dn
 {

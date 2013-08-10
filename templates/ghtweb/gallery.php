@@ -7,7 +7,7 @@
         <ul>
             <?php foreach($content as $row) { ?>
                 <li>
-					<a class="fancybox-button	" rel="fancybox-button" href="/<?php echo $this->config->item('gallery_path') ?>/<?php echo $row['img'] ?>">
+					<a class="fancybox-button" rel="fancybox-button" href="/<?php echo $this->config->item('gallery_path') ?>/<?php echo $row['img'] ?>">
 						<img src="/<?php echo $this->config->item('gallery_path') ?>/<?php echo get_thumb($row['img']) ?>" alt="" style="margin-top: <?php echo get_margin_top($row['img'], 171) ?>px;" />
 					</a>
 				</li>

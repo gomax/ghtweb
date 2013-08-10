@@ -4,13 +4,13 @@
 
 <?php echo $message ?>
 
-<?php echo Message::info('
+<p>
     <b>Анонс:</b> announce text<br />
     <b>Личное сообщение:</b> pm Admin text<br />
     <b>Выкинуть игрока:</b> kick Admin<br />
     <b>Рестарт:</b> restart 3600<br />
     <b>Выключить:</b> restart 3600<br />
-') ?>
+</p>
 
 <?php echo form_open('', 'class="form-horizontal"') ?>
     <fieldset>

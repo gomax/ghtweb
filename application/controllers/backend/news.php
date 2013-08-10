@@ -80,7 +80,7 @@ class News extends Controllers_Backend_Base
         
         
         // Save
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
             
@@ -94,30 +94,32 @@ class News extends Controllers_Backend_Base
                 if($this->{$this->_model}->edit($data_db, $data_db_where, 1))
                 {
                     $this->cache->delete('news/' . $id);
-                    $message = Message::true('Новость сохранена');
+                    $this->view_data['message'] = Message::true('Новость сохранена');
                 }
                 else
                 {
-                    $message = Message::false('Ошибка! Не удалось записать данные в БД');
+                    $this->view_data['message'] = Message::false('Ошибка! Не удалось записать данные в БД');
                 }
             }
         }
 
-        $view_data = array(
-            'content' => $this->{$this->_model}->get_row($data_db_where),
-            'message' => isset($message) ? $message : '',
-        );
+        if(validation_errors())
+        {
+            $this->view_data['message'] = Message::false(validation_errors());
+        }
 
-        $this->view_data['content'] = $this->load->view('news/edit', $view_data, TRUE);
+        $this->view_data['content'] = $this->{$this->_model}->get_row($data_db_where);
+
+        $this->view_data['content'] = $this->load->view('news/edit', $this->view_data, TRUE);
     }
     
     public function add()
     {
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
             
-            $this->form_validation->set_error_delimiters('', '');
+            $this->form_validation->set_error_delimiters('', '<br>');
             
             if($this->form_validation->run('backend_news'))
             {
@@ -126,20 +128,22 @@ class News extends Controllers_Backend_Base
                 
                 if($this->{$this->_model}->add($data_db))
                 {
-                    $message = Message::true('Новость добавлена');
+                    $this->view_data['message'] = Message::true('Новость добавлена');
+                    $this->form_validation->clear_fields();
                 }
                 else
                 {
-                    $message = Message::false('Ошибка! Не удалось записать данные в БД');
+                    $this->view_data['message'] = Message::false('Ошибка! Не удалось записать данные в БД');
                 }
             }
         }
 
-        $view_data = array(
-            'message' => isset($message) ? $message : '',
-        );
+        if(validation_errors())
+        {
+            $this->view_data['message'] = Message::false(validation_errors());
+        }
 
-        $this->view_data['content'] = $this->load->view('news/add', $view_data, TRUE);
+        $this->view_data['content'] = $this->load->view('news/add', $this->view_data, TRUE);
     }
     
     public function del()

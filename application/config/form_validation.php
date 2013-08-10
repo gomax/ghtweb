@@ -12,37 +12,37 @@ $config = array(
         array(
             'field' => 'title',
             'label' => 'Название',
-            'rules' => 'required|trim|xss_clean|min_length[3]|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|required|min_length[3]|max_length[255]'
         ),
         array(
             'field' => 'description',
             'label' => 'Описание',
-            'rules' => 'required|trim|min_length[5]'
+            'rules' => 'xss_clean|strip_tags|trim|required|min_length[5]'
         ),
         array(
             'field' => 'text',
             'label' => 'Текст',
-            'rules' => 'required|trim|min_length[5]'
+            'rules' => 'trim|required|min_length[5]'
         ),
         array(
             'field' => 'seo_title',
             'label' => 'SEO титул',
-            'rules' => 'trim|xss_clean|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|max_length[255]'
         ),
         array(
             'field' => 'seo_keywords',
             'label' => 'SEO ключевые слова',
-            'rules' => 'trim|xss_clean|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|max_length[255]'
         ),
         array(
             'field' => 'seo_description',
             'label' => 'SEO описание',
-            'rules' => 'trim|xss_clean|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|max_length[255]'
         ),
         array(
             'field' => 'allow',
             'label' => 'Статус',
-            'rules' => 'required|exact_length[1]|numeric'
+            'rules' => 'required|in[0,1]'
         ),
     ),
     
@@ -51,37 +51,37 @@ $config = array(
         array(
             'field' => 'page',
             'label' => 'Ссылка на страницу',
-            'rules' => 'required|trim|xss_clean|min_length[3]|max_length[30]|regex_match[#^[a-z0-9\-\_]+$#siu]'
+            'rules' => 'xss_clean|strip_tags|trim|required|min_length[3]|max_length[255]|alpha_dash'
         ),
         array(
             'field' => 'title',
             'label' => 'Название',
-            'rules' => 'required|trim|xss_clean|min_length[3]|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|required|min_length[3]|max_length[255]'
         ),
         array(
             'field' => 'text',
             'label' => 'Текст',
-            'rules' => 'required|trim|min_length[5]'
+            'rules' => 'trim|required|min_length[5]'
         ),
         array(
             'field' => 'seo_title',
             'label' => 'SEO титул',
-            'rules' => 'trim|xss_clean|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|max_length[255]'
         ),
         array(
             'field' => 'seo_keywords',
             'label' => 'SEO ключевые слова',
-            'rules' => 'trim|xss_clean|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|max_length[255]'
         ),
         array(
             'field' => 'seo_description',
             'label' => 'SEO описание',
-            'rules' => 'trim|xss_clean|max_length[255]'
+            'rules' => 'xss_clean|strip_tags|trim|max_length[255]'
         ),
         array(
             'field' => 'allow',
             'label' => 'Статус',
-            'rules' => 'required|exact_length[1]|numeric'
+            'rules' => 'required|in[0,1]'
         ),
     ),
     

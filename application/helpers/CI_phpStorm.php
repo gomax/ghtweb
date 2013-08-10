@@ -35,7 +35,7 @@
  * @property CI_Email $email                      Permits email to be sent using Mail, Sendmail, or SMTP.
  * @property CI_Encrypt $encrypt                  Provides two-way keyed encoding using XOR Hashing and Mcrypt
  * @property CI_Exceptions $exceptions            Exceptions Class
- * @property CI_Form_validation $form_validation  Form Validation Class
+ * @property GW_Form_validation $form_validation  Form Validation Class
  * @property CI_Ftp $ftp                          FTP Class
  * @property CI_Hooks $hooks                      //dead
  * @property CI_Image_lib $image_lib              Image Manipulation class

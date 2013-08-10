@@ -60,8 +60,7 @@ class Main extends Controllers_Backend_Base
         
         
         // Данные для графика по регистрациям
-        //$view_data = $this->graph_data();
-        $view_data = array_merge($view_data, $this->graph_data());
+        $this->graph_data();
 
         $this->view_data['content'] = $this->load->view('main/index', $view_data, TRUE);
 	}
@@ -83,10 +82,8 @@ class Main extends Controllers_Backend_Base
             $count[] = $row['count'];
         }
         
-        $view_data['reg_data_time'] = "['" . join("','", $time) . "']";
-        $view_data['reg_data_count'] = "[" . join(",", $count) . "]";
-
-        return $view_data;
+        $this->view_data['reg_data_time'] = "['" . join("','", $time) . "']";
+        $this->view_data['reg_data_count'] = "[" . join(",", $count) . "]";
     }
 
     public function get_cache_size($dir)

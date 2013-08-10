@@ -51,7 +51,7 @@ class Gallery extends Controllers_Backend_Base
 
                     $config = array(
                         'upload_path'   => FCPATH . $this->config->item('gallery_path'),
-                        'allowed_types' => 'gif|jpg|jpeg|png',
+                        'allowed_types' => 'gif|jpg|jpeg|png|bmp',
                         'encrypt_name'  => true,
                     );
 
@@ -80,8 +80,8 @@ class Gallery extends Controllers_Backend_Base
                         // Режу на 100x100
                         if(!$this->upload->display_errors())
                         {
-                            $config['width']     = 100;
-                            $config['height']    = 100;
+                            $config['width']     = $this->config->item('gallery_min_width');
+                            $config['height']    = $this->config->item('gallery_min_height');
                             $config['new_image'] = $data['raw_name'] . '_thumb' . $data['file_ext'];
 
                             $this->image_lib->initialize($config);

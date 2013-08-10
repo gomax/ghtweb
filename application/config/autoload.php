@@ -59,7 +59,7 @@ $autoload['packages'] = array(
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'session', 'auth', 'Captcha', 'Message', 'Server_status', 'Top_pvp', 'Top_pk', 'Forum_threads');
+$autoload['libraries'] = array('Cache', 'database', 'session', 'auth', 'Captcha', 'Message', 'Server_status', 'Top_pvp', 'Top_pk', 'Forum_threads');
 
 
 /*

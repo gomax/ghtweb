@@ -63,13 +63,8 @@ class Crud extends CI_Model
      * 
      * @return boolean
      */
-    public function edit(array $data = NULL, array $where = NULL, $limit = 1)
+    public function edit(array $data, array $where = NULL, $limit = 0)
 	{
-        if($data == NULL)
-        {
-            return false;
-        }
-
         if($this->timestamp)
         {
             $data['updated_at'] = db_date();
@@ -80,10 +75,13 @@ class Crud extends CI_Model
         {
             $this->db->where($where);
         }
-        
-        $this->db->limit($limit);
 
-		return $this->db->update($this->table, $data);
+        if($limit > 0)
+        {
+            $this->db->limit($limit);
+        }
+
+        return $this->db->update($this->table, $data);
     }
 	
     /**
@@ -93,13 +91,10 @@ class Crud extends CI_Model
      * 
      * @return array
      */
-    public function get_row(array $where = NULL)
+    public function get_row(array $where)
 	{
-        if($where != NULL)
-        {
-            $this->db->where($where);
-        }
-        
+        $this->db->where($where);
+
         return $this->db->get($this->table, 1)
             ->row_array();
     }

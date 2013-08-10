@@ -8,7 +8,7 @@
 	<meta name="keywords" content="<?php echo $meta_keywords ?>" />
 	<meta name="description" content="<?php echo $meta_description ?>" />
 	
-	<script type="text/javascript" src="/resources/libs/jquery-1.8.3.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo TPL ?>css/style.css" media="all" />
 	
@@ -89,18 +89,18 @@
 	</div>
 	
 	
-	<?php if($this->uri->segment(1) == 'gallery') { ?>
+	<?php if(us(1) == 'gallery') { ?>
 		<!-- FANCYBOX -->
-		<link rel="stylesheet" type="text/css" href="/resources/libs/fancybox/2.1.3/jquery.fancybox.css" media="all" />
-		<script type="text/javascript" src="/resources/libs/fancybox/2.1.3/jquery.mousewheel-3.0.6.pack.js"></script>
-		<script type="text/javascript" src="/resources/libs/fancybox/2.1.3/jquery.fancybox.pack.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/jquery.fancybox.css" media="all" />
+		<script type="text/javascript" src="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/jquery.mousewheel-3.0.6.pack.js"></script>
+		<script type="text/javascript" src="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
 		
-		<link rel="stylesheet" href="/resources/libs/fancybox/2.1.3/helpers/jquery.fancybox-buttons.css" />
-		<script type="text/javascript" src="/resources/libs/fancybox/2.1.3/helpers/jquery.fancybox-buttons.js"></script>
-		<script type="text/javascript" src="/resources/libs/fancybox/2.1.3/helpers/jquery.fancybox-media.js"></script>
+		<link rel="stylesheet" href="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/helpers/jquery.fancybox-buttons.css" />
+		<script type="text/javascript" src="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/helpers/jquery.fancybox-buttons.js"></script>
+		<script type="text/javascript" src="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/helpers/jquery.fancybox-media.js"></script>
 		
-		<link rel="stylesheet" href="/resources/libs/fancybox/2.1.3/helpers/jquery.fancybox-thumbs.css" />
-		<script type="text/javascript" src="/resources/libs/fancybox/2.1.3/helpers/jquery.fancybox-thumbs.js"></script>
+		<link rel="stylesheet" href="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/helpers/jquery.fancybox-thumbs.css" />
+		<script type="text/javascript" src="<?php echo base_url() ?>resources/libs/fancybox/2.1.5/helpers/jquery.fancybox-thumbs.js"></script>
 	<?php } ?>
 	
 	<!-- CAPTCHA -->

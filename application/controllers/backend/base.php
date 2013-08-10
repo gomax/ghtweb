@@ -35,6 +35,8 @@ class Controllers_Backend_Base extends GW_Controller
         $this->load->config('backend', true);
         
         $this->get_settings_group();
+
+        $this->output->enable_profiler(FALSE);
     }
     
     /**

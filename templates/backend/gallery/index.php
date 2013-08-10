@@ -6,16 +6,6 @@
     <?php echo $this->session->flashdata('message') ?>
 <?php } ?>
 
-<link rel="stylesheet" type="text/css" href="/resources/libs/fancybox/2.1.3/jquery.fancybox.css" media="all" />
-<script type="text/javascript" src="/resources/libs/fancybox/2.1.3/jquery.mousewheel-3.0.6.pack.js"></script>
-<script type="text/javascript" src="/resources/libs/fancybox/2.1.3/jquery.fancybox.pack.js"></script>
-
-<script type="text/javascript">
-$(function(){
-    $('.fancybox').fancybox();
-})
-</script>
-
 <div class="gallery">
     <?php if($gallery_content) { ?>
         <?php foreach($gallery_content as $image) { ?>
@@ -26,11 +16,11 @@ $(function(){
                     <a href="/backend/gallery/del/<?php echo $image['id'] ?>/" class="btn btn-mini btn-danger del" title="Удалить">del</a>
                 </div>
                 <a class="fancybox" rel="gallery" href="/<?php echo $this->config->item('gallery_path') ?>/<?php echo $image['img'] ?>">
-                    <img src="/<?php echo $this->config->item('gallery_path') ?>/<?php echo get_thumb($image['img']) ?>" alt="" />
+                    <img src="/<?php echo $this->config->item('gallery_path') ?>/<?php echo get_thumb($image['img']) ?>" alt="" class="img-polaroid">
                 </a>
             </li>
         <?php } ?>
     <?php } else { ?>
-        <?php echo Message::info('Раздел пуст') ?>
+        Раздел пуст
     <?php } ?>
 </div>

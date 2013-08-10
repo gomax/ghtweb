@@ -40,14 +40,14 @@ class Themes extends Controllers_Backend_Base
                 if(is_dir($path))
                 {
                     $error = TRUE;
-                    $message = 'Папка: ' . $theme_data->slug . ' уже существует';
+                    $message = Message::false('Папка: ' . $theme_data->slug . ' уже существует');
                 }
 
                 // Создание папки
                 if(!$error && !mkdir($path, 0777, TRUE))
                 {
                     $error = TRUE;
-                    $message = 'Не удалось создать папку: ' . $theme_data->slug;
+                    $message = Message::false('Не удалось создать папку: ' . $theme_data->slug);
                 }
 
                 // Копирую шаблон с сервера
@@ -56,40 +56,37 @@ class Themes extends Controllers_Backend_Base
                 if(!$error && !copy($theme_data->file_name, $new_zip_dir))
                 {
                     $error = TRUE;
-                    $message = 'Не удалось скопировать с сервера шаблон';
+                    $message = Message::false('Не удалось скопировать с сервера шаблон');
                 }
 
                 // Распаковка шаблона
                 if(!$error && !$this->unzip($new_zip_dir, $path . '/'))
                 {
                     $error = TRUE;
-                    $message = 'Не удалось распаковать шаблон';
+                    $message = Message::false('Не удалось распаковать шаблон');
                 }
 
                 // Удаляю мусор
                 if(!$error)
                 {
                     unlink($new_zip_dir);
-                    $message = 'Шаблон установлен';
+                    $message = Message::true('Шаблон установлен');
                 }
             }
             else
             {
-                $message = 'Не удалось забрать шаблон с сервера';
+                $message = Message::false('Не удалось забрать шаблон с сервера');
             }
         }
         else
         {
-            $message = 'Сервер не найден';
+            $message = Message::false('Сервер не найден');
         }
 
 
-        $view_data = array(
-            'message' => isset($message) ? $message  : '',
-            'content' => isset($content) ? $content : '',
-        );
+        $this->view_data['message'] = $message;
 
-        $this->view_data['content'] = $this->load->view('themes/install', $view_data, TRUE);
+        $this->view_data['content'] = $this->load->view('themes/install', $this->view_data, TRUE);
     }
 
     private function unzip($file, $dir)

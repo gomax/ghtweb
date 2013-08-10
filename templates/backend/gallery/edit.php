@@ -2,18 +2,6 @@
     <h1>Галерея <small>редактирование картинки</small></h1>
 </div>
 
-<?php echo $message ?>
-
-<link rel="stylesheet" type="text/css" href="/resources/libs/fancybox/jquery.fancybox.css" media="all" />
-<script type="text/javascript" src="/resources/libs/fancybox/jquery.mousewheel-3.0.6.pack.js"></script>
-<script type="text/javascript" src="/resources/libs/fancybox/jquery.fancybox.pack.js"></script>
-
-<script type="text/javascript">
-$(function(){
-    $('.fancybox').fancybox();
-})
-</script>
-
 <?php echo form_open_multipart('', 'class="form-horizontal"') ?>
     <input type="hidden" name="old_img" value="<?php echo $content['img'] ?>" />
     <fieldset>

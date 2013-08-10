@@ -23,13 +23,13 @@ $(function(){
 	// Delete
 	$('a.delete').click(function(){
 		
-		modal_box('Предупреждение', 'Точно удалить?', 'Удалить', $(this).attr('href'));
+		//modal_box('Предупреждение', 'Точно удалить?', 'Удалить', $(this).attr('href'));
 		
 		return false;
 	});
 	
 	// Закрытие модального окна
-	$('.modal a.close-button').live('click', function(){
+	$('.modal a.close-button').on('click', function(){
 		$('.modal').modal('hide');
 	});
 	
@@ -77,11 +77,11 @@ $(function(){
     $('.chzn-select').chosen({
     	disable_search_threshold: 10
     });
-    
-    $('.chzn-select-deselect').chosen({
+
+   /* $('.chzn-select-deselect').chosen({
     	allow_single_deselect: true,
     	disable_search_threshold: 10
-    });
+    });*/
     
     // Tabs
     $('.nav-tabs a').click(function (e) {

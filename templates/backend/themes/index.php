@@ -16,20 +16,7 @@
 			</li>
 		<?php } ?>
 	</menu>
-	
-	<script type="text/javascript">
-		$(window).load(function(){
-			var fh = $('.themes li:first figure').height();
-			$('figure').each(function(){
-				var img   = $(this).find('img'),
-					img_h = img.height(),
-					mt    = parseInt((fh - img_h) / 2);
-				
-				img.css('margin-top',mt);
-			});
-		})
-	</script>
-	
+
 <?php } else { ?>
 	Шаблоны не найдены
 <?php } ?>

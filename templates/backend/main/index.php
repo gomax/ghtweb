@@ -37,36 +37,8 @@
     <h1>Информация о сайте</h1>
 </div>
 
-<script type="text/javascript">
-$(function(){
-    chart1 = new Highcharts.Chart({
-        chart: {
-            renderTo: 'container_chart',
-            type: 'area'
-        },
-        title: {
-            text: 'График регистраций'
-        },
-        credits: {
-            enabled: false
-        },
-        xAxis: {
-            categories: <?php echo $reg_data_time ?> // Даты
-        },
-        yAxis: {
-            title: {
-               text: ''
-            }
-        },
-        series: [{
-            name: 'Регистраций',
-            data: <?php echo $reg_data_count ?> // Кол-во регистраций
-        }]
-    });
-})
-</script>
-<script type="text/javascript" src="/resources/libs/highcharts/highcharts.js"></script>
-<script type="text/javascript" src="/resources/libs/highcharts/exporting.js"></script>
+
+
 
 <div id="container_chart" style="height: 200px; overflow: hidden; margin: 0 0 40px 0;"></div>
 

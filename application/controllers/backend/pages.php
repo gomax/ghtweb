@@ -80,7 +80,7 @@ class Pages extends Controllers_Backend_Base
         
         
         // Save
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
             
@@ -96,27 +96,29 @@ class Pages extends Controllers_Backend_Base
                     
                     $this->cache->delete('pages/' . $page_data['page']);
 
-                    $message = Message::true('Страница сохранена');
+                    $this->view_data['message'] = Message::true('Страница сохранена');
                 }
                 else
                 {
-                    $message = Message::false('Ошибка! Не удалось записать данные в БД');
+                    $this->view_data['message'] = Message::false('Ошибка! Не удалось записать данные в БД');
                 }
             }
         }
 
-        $view_data = array(
-            'content' => $this->{$this->_model}->get_row($data_db_where),
-            'message' => isset($message) ? $message : '',
-        );
+        if(validation_errors())
+        {
+            $this->view_data['message'] = Message::false(validation_errors());
+        }
 
-        $this->view_data['content'] = $this->load->view('pages/edit', $view_data, TRUE);
+        $this->view_data['content'] = $this->{$this->_model}->get_row($data_db_where);
+
+        $this->view_data['content'] = $this->load->view('pages/edit', $this->view_data, TRUE);
     }
     
     public function add()
     {
         // Save
-        if(isset($_POST['submit']))
+        if($this->input->post())
         {
             $this->load->library('form_validation');
             
@@ -128,21 +130,22 @@ class Pages extends Controllers_Backend_Base
 
                 if($this->{$this->_model}->add($data_db))
                 {
-                    $message = Message::true('Страница добавлена');
+                    $this->view_data['message'] = Message::true('Страница добавлена');
+                    $this->form_validation->clear_fields();
                 }
                 else
                 {
-                    $message = Message::false('Ошибка! Не удалось записать данные в БД');
+                    $this->view_data['message'] = Message::false('Ошибка! Не удалось записать данные в БД');
                 }
             }
         }
 
+        if(validation_errors())
+        {
+            $this->view_data['message'] = Message::false(validation_errors());
+        }
 
-        $view_data = array(
-            'message' => isset($message) ? $message : '',
-        );
-
-        $this->view_data['content'] = $this->load->view('pages/add', $view_data, TRUE);
+        $this->view_data['content'] = $this->load->view('pages/add', $this->view_data, TRUE);
     }
     
     public function del()

@@ -32,9 +32,6 @@ class GW_Controller extends CI_Controller
     {
         parent::__construct();
 
-        // Драйвер кэширования
-        $this->load->driver('cache', array('adapter' => 'file'));
-        
         // Достаю настройки
         $settings = $this->settings_model->get_settings_list();
         $this->config->set_item($settings);
