@@ -16,6 +16,7 @@ class Forum_threads
         'phpbb'     => 'topics',
         'vanilla'   => 'gdn_discussion',
         'vBulletin' => 'thread',
+        'xenForo'   => 'thread',
     );
 
 
@@ -267,10 +268,30 @@ class Forum_threads
         }
 
         $res = self::$_db->select('forumid as id_topic, dateline AS start_date, postusername AS starter_name, lastposterid AS starter_id, threadid AS id_forum, title')
-            ->from('thread')
             ->order_by('start_date', 'DESC')
-            ->limit(self::$_config['forum_per_page'])
-            ->get();
+            ->get('thread', self::$_config['forum_per_page']);
+
+        if(!$res)
+        {
+            return self::$_db->_error_message();
+        }
+
+        return $res->result_array();
+    }
+
+    private function forum_xenForo()
+    {
+        if(self::$_config['forum_id_deny'] != '')
+        {
+            $deny = explode(',', self::$_config['forum_id_deny']);
+            $deny = array_map('trim', $deny);
+
+            self::$_db->where_not_in('forumid', $deny);
+        }
+
+        $res = self::$_db->select('thread_id AS id_topic,title,node_id AS id_forum,last_post_date AS start_date,user_id AS starter_id,last_post_username AS starter_name')
+            ->order_by('last_post_date', 'DESC')
+            ->get('thread', self::$_config['forum_per_page']);
 
         if(!$res)
         {
@@ -306,6 +327,9 @@ class Forum_threads
             case 'vBulletin':
                 $link .= 'showthread.php?' . $id_forum . '-' . $title;
                 break;
+            case 'xenForo':
+                $link .= 'index.php?threads/' . $id_topic;
+                break;
         }
 
         return $link;
@@ -331,6 +355,9 @@ class Forum_threads
                 break;
             case 'vBulletin':
                 $link .= 'member.php?' . $user_id . '-' . $user_name;
+                break;
+            case 'xenForo':
+                $link .= 'index.php?members/' . $user_id;
                 break;
         }
 
