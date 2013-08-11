@@ -14,7 +14,10 @@ class Register_account extends Controllers_Cabinet_Base
     
 	public function index()
 	{
-        if(isset($_POST['submit']))
+        $prefixes = get_game_account_prefixes();
+
+
+        if($this->input->post())
         {
             $this->load->library('form_validation');
 
@@ -22,11 +25,16 @@ class Register_account extends Controllers_Cabinet_Base
 
             if(count($this->logins) > 1)
             {
-                $this->form_validation->set_rules('login_id', 'Выберите сервер', 'required|trim|integer|callback__check_login_by_id');
+                $this->form_validation->set_rules('login_id', 'Выберите сервер', 'trim|required|integer|callback__check_login_by_id');
             }
 
-            $this->form_validation->set_rules('login',    'Логин',  'required|trim|xss_clean|min_length[' . $this->config->item('login_min_length', 'lineage') . ']|max_length[' . $this->config->item('login_max_length', 'lineage') . ']|alpha_dash');
-            $this->form_validation->set_rules('password', 'Пароль', 'required|trim|xss_clean|min_length[' . $this->config->item('password_min_length', 'lineage') . ']|max_length[' . $this->config->item('password_max_length', 'lineage') . ']');
+            if($prefixes !== FALSE)
+            {
+                $this->form_validation->set_rules('prefix', 'Префикс', 'strip_tags|xss_clean|trim|required|exact_length[' . $this->config->item('game_account_prefix_length') . ']');
+            }
+
+            $this->form_validation->set_rules('login',    'Логин',  'xss_clean|trim|required|min_length[' . $this->config->item('login_min_length', 'lineage') . ']|max_length[' . $this->config->item('login_max_length', 'lineage') . ']|alpha_dash');
+            $this->form_validation->set_rules('password', 'Пароль', 'xss_clean|trim|required|min_length[' . $this->config->item('password_min_length', 'lineage') . ']|max_length[' . $this->config->item('password_max_length', 'lineage') . ']');
 
             if($this->form_validation->run())
             {
@@ -55,10 +63,9 @@ class Register_account extends Controllers_Cabinet_Base
                     $password_encode = pass_encode($password, $this->l2_settings['logins'][$login_id]['password_type']);
 
                     // Префикс
-                    if($this->config->item('game_account_prefix_allow'))
+                    if($prefixes !== FALSE)
                     {
-                        $prefix = strtolower(random_string($this->config->item('game_account_prefix_type'), $this->config->item('game_account_prefix_length')));;
-                        $login  = $prefix . $this->config->item('game_account_prefix_separator') . $login;
+                        $login  = strtolower($this->input->post('prefix')) . $this->config->item('game_account_prefix_separator') . $login;
                     }
 
                     // Проверяю чтобы аккаунт был свободен
@@ -146,6 +153,7 @@ class Register_account extends Controllers_Cabinet_Base
             'message'           => isset($message) ? $message : '',
             'logins'            => $this->logins,
             'logins_for_select' => $this->get_logins_for_select(),
+            'prefixes'          => $prefixes,
         );
 
         $this->view_data['content'] = $this->load->view('cabinet/register_account', $view_data, TRUE);

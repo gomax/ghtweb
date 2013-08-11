@@ -239,3 +239,30 @@ function log_file($text, $file)
 
     return file_put_contents($path, $msg, FILE_APPEND);
 }
+
+/**
+ * Возвращает префиксы, используется при регистрации игрового аккаунта
+ *
+ * @return array|bool
+ */
+function get_game_account_prefixes()
+{
+    $CI =& get_instance();
+
+    if($CI->config->item('game_account_prefix_allow') != 1 || $CI->config->item('game_account_prefix_count') < 1)
+    {
+        return FALSE;
+    }
+
+    $CI->load->helper('string');
+
+    $prefixes = array();
+
+    for($i = 0; $i < $CI->config->item('game_account_prefix_count'); $i++)
+    {
+        $str = random_string($CI->config->item('game_account_prefix_type'), $CI->config->item('game_account_prefix_length'));
+        $prefixes[$str] = $str;
+    }
+
+    return $prefixes;
+}

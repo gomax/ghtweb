@@ -55,6 +55,8 @@ class GW_Controller extends CI_Controller
             }
         }
 
+       // $this->migration->version(2);
+
         if(!defined('TPL'))
         {
             define('TPL', base_url() . 'templates/' . $this->config->item('template') . '/');

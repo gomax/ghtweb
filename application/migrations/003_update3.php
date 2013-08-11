@@ -10,6 +10,14 @@ class Migration_Update3 extends GW_Migration
         $this->db->update('settings', array('param' => 'ipb,phpbb,smf,vanilla,vBulletin,xenForo'), array('key' => 'forum_type'), 1);
         $this->db->delete('settings', array('key' => 'wysiwyg_editor_type'), 1);
         $this->db->update('settings', array('param' => '<b>alnum</b> - Строка с цифрами и буквами, <b>alpha</b> - Строка с буквами, <b>numeric</b> - Числовая строка, <b>nozero</b> - Числовая срока без нулей'), array('key' => 'game_account_prefix_type'), 1);
+        $this->db->insert('settings', array(
+            'key' => 'game_account_prefix_count',
+            'value' => 7,
+            'name' => 'Кол-во префиксов',
+            'description' => 'Кол-во префиксов из которых юзер сможет выбрать',
+            'group_id' => 22,
+            'type' => 'input',
+        ));
     }
     
     public function down()
@@ -17,5 +25,6 @@ class Migration_Update3 extends GW_Migration
         $prefix = $this->db->dbprefix;
 
         $this->db->update('settings', array('param' => 'ipb,phpbb,smf,vanilla,vBulletin'), array('key' => 'forum_type'), 1);
+        $this->db->delete('settings', array('key' => 'game_account_prefix_count'), 1);
     }
 }

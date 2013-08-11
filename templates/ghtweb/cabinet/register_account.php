@@ -15,6 +15,15 @@
         </div>
     <?php } ?>
     
+    <?php if(is_array($prefixes)) { ?>
+        <div class="row">
+            <label for="login">Выберите префикс</label>
+            <div class="controls">
+                <?php echo form_dropdown('prefix', $prefixes, set_value('prefix')) ?>
+            </div>
+        </div>
+    <?php } ?>
+
     <div class="row">
         <label for="login">Логин</label>
         <div class="controls">
