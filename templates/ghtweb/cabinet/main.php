@@ -18,3 +18,33 @@
         У вас нет ни единого игрового аккаунта. <a href="/cabinet/create_game_account/">Хотите создать его?</a>
     </p>
 <?php } ?>
+
+<br><br>
+<div class="page-title">
+    <h1>Последнии 10 авторизаций в Мастер аккаунте</h1>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>IP</th>
+            <th>Дата</th>
+            <th>Время</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if($last_access) { ?>
+            <?php foreach($last_access as $row) { ?>
+                <tr>
+                    <td><?php echo $row['ip'] ?></td>
+                    <td><?php echo date('Y-m-d', strtotime($row['created_at'])) ?></td>
+                    <td><?php echo date('H:i:s', strtotime($row['created_at'])) ?></td>
+                </tr>
+            <?php } ?>
+        <?php } else { ?>
+            <tr>
+                <td colspan="3">Это Ваш первый вход</td>
+            </tr>
+        <?php } ?>
+    </tbody>
+</table>

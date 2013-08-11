@@ -23,6 +23,7 @@ class Main extends Controllers_Cabinet_Base
             $message = $this->session->flashdata('message');
         }
 
+        $this->load->model('users_login_logs_model');
 
         // Meta
         $this->set_meta_title('Мастер аккаунт');
@@ -30,6 +31,7 @@ class Main extends Controllers_Cabinet_Base
         $view_data = array(
             'count_game_accounts' => $data,
             'message'             => isset($message) ? $message : '',
+            'last_access'         => $this->users_login_logs_model->get_list(1, 10, array('user_id' => $user_id), 'created_at', 'DESC'),
         );
 
         $this->view_data['content'] = $this->load->view('cabinet/main', $view_data, TRUE);
