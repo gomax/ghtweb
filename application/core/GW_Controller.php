@@ -209,7 +209,7 @@ class GW_Controller extends CI_Controller
         
         if($this->users_model->get_row($data_db_where))
         {
-            $this->form_validation->set_message('_check_user_login', 'Логин уже занят');
+            $this->form_validation->set_message(__FUNCTION__, 'Логин уже занят');
             return false;
         }
         
@@ -239,7 +239,7 @@ class GW_Controller extends CI_Controller
         
         if($this->users_model->get_row($data_db_where))
         {
-            $this->form_validation->set_message('_check_user_email', 'На этот Email уже зарегистрирован аккаунт');
+            $this->form_validation->set_message(__FUNCTION__, 'На этот Email уже зарегистрирован аккаунт');
             return FALSE;
         }
     }
@@ -257,7 +257,7 @@ class GW_Controller extends CI_Controller
         
         if(!isset($groups[$value]))
         {
-            $this->form_validation->set_message('_check_user_group', 'Группа пользователя не правильная');
+            $this->form_validation->set_message(__FUNCTION__, 'Группа пользователя не правильная');
             return false;
         }
         
@@ -273,7 +273,7 @@ class GW_Controller extends CI_Controller
     {
         if(!$this->captcha->check_captcha($this->input->post('captcha'), $this->input->post('captcha_id')))
         {
-            $this->form_validation->set_message('_check_captcha', 'Код с картинки введен не верно');
+            $this->form_validation->set_message(__FUNCTION__, 'Код с картинки введен не верно');
             return false;
         }
         
