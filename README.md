@@ -23,7 +23,5 @@
 1. Скачать [CMS](https://github.com/ghtweb/ghtweb/archive/master.zip)
 2. Разархивировать в папку
 3. Настроить файл подключения к БД **application\config\database.php**
-4. Зайти в папку **application\config\migration.php** на **11** строке поставить **TRUE**
-```$config['migration_enabled'] = TRUE;```
-5. Удалить таблицу **all_items** и залить [эту](https://www.dropbox.com/s/6okd2wjfekesp1p/ghtweb_all_items.zip) таблицу
-6. Открыть сайт, CMS сама обновит БД
+4. Удалить таблицу **all_items** и залить [эту](https://www.dropbox.com/s/6okd2wjfekesp1p/ghtweb_all_items.zip) таблицу
+5. Открыть сайт, CMS сама обновит БД
