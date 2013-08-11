@@ -8,6 +8,7 @@ class Migration_Update3 extends GW_Migration
         $prefix = $this->db->dbprefix;
 
         $this->db->update('settings', array('param' => 'ipb,phpbb,smf,vanilla,vBulletin,xenForo'), array('key' => 'forum_type'), 1);
+        $this->db->delete('settings', array('key' => 'wysiwyg_editor_type'), 1);
     }
     
     public function down()

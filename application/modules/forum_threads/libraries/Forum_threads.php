@@ -170,10 +170,8 @@ class Forum_threads
         }
 
         $res = self::$_db->select('tid AS id_topic,start_date,starter_name,starter_id,forum_id AS id_forum,title')
-            ->from('topics')
             ->order_by('start_date', 'DESC')
-            ->limit(self::$_config['forum_per_page'])
-            ->get();
+            ->get('topics', self::$_config['forum_per_page']);
 
         if(!$res)
         {
@@ -194,10 +192,8 @@ class Forum_threads
         }
 
         $res = self::$_db->select('topic_id AS id_topic,topic_time AS start_date,topic_first_poster_name AS starter_name,topic_poster AS starter_id,forum_id AS id_forum,topic_title AS title')
-            ->from('topics')
             ->order_by('start_date', 'DESC')
-            ->limit(self::$_config['forum_per_page'])
-            ->get();
+            ->get('topics', self::$_config['forum_per_page']);
 
         if(!$res)
         {
@@ -218,11 +214,9 @@ class Forum_threads
         }
 
         $res = self::$_db->select('subject AS title,poster_time AS start_date,poster_name AS starter_name,id_member AS starter_id,id_board AS id_forum,id_topic')
-            ->from('messages')
             ->order_by('start_date', 'DESC')
             ->group_by('id_topic')
-            ->limit(self::$_config['forum_per_page'])
-            ->get();
+            ->get('messages', self::$_config['forum_per_page']);
 
         if(!$res)
         {
@@ -243,11 +237,9 @@ class Forum_threads
         }
 
         $res = self::$_db->select('gdn_discussion.InsertUserID AS starter_id,gdn_discussion.DiscussionID AS id_forum,gdn_discussion.`Name` AS title,UNIX_TIMESTAMP(gdn_discussion.DateInserted) AS start_date,gdn_user.`Name` AS starter_name,gdn_discussion.CategoryID AS id_topic')
-            ->from('gdn_discussion')
             ->join('gdn_user', 'gdn_discussion.InsertUserID = gdn_user.UserID', 'left')
             ->order_by('gdn_discussion.DateInserted', 'DESC')
-            ->limit(self::$_config['forum_per_page'])
-            ->get();
+            ->get('gdn_discussion', self::$_config['forum_per_page']);
 
         if(!$res)
         {
