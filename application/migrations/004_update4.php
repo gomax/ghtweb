@@ -10,6 +10,15 @@ class Migration_Update4 extends GW_Migration
         $this->db->delete('settings', array('key' => 'forgotten_password_type'), 1);
         $this->db->delete('settings', array('key' => 'forgotten_password_re_time'), 1);
         $this->db->query("DROP TABLE IF EXISTS `" . $prefix . "forgotten_password`");
+
+        $this->db->insert('settings', array(
+            'key' => 'news_socials',
+            'value' => 1,
+            'name' => 'Социальный сети',
+            'description' => 'Добавляет виджет с соц. сетями для того чтобы пользователи могли делиться новостями (http://share42.com/)',
+            'group_id' => 13,
+            'type' => 'radio',
+        ));
     }
     
     public function down()
@@ -43,6 +52,9 @@ class Migration_Update4 extends GW_Migration
                 `created_at` datetime NOT NULL,
                 PRIMARY KEY (`id`),
                 KEY `ix_key` (`key`) USING BTREE
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
+        );
+
+        $this->db->delete('settings', array('key' => 'news_socials'), 1);
     }
 }
