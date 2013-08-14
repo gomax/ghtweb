@@ -21,12 +21,12 @@ $(function(){
 	});
 	
 	// Delete
-	$('a.delete').click(function(){
+	//$('a.delete').click(function(){
 		
 		//modal_box('Предупреждение', 'Точно удалить?', 'Удалить', $(this).attr('href'));
 		
 		return false;
-	});
+	//});
 	
 	// Закрытие модального окна
 	$('.modal a.close-button').on('click', function(){
