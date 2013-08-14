@@ -131,11 +131,11 @@ class Lineage_first_team_hf extends CI_Driver
 
         $this->db->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id', 'left');
         $this->db->join('clan_data', 'characters.clanid = clan_data.clan_id', 'left');
-        $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id', 'left');
+        $this->db->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id AND type=0', 'left');
         $this->db->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left');
 
         $this->db->where('character_subclasses.isBase', 1);
-        $this->db->where('clan_subpledges.type', 0);
+        //$this->db->where('clan_subpledges.type', 0);
 
         $result = array();
 
