@@ -6,9 +6,6 @@ class Cache
     private $_cache_path = '';
     private $_ext = '.cache';
 
-    // Пишет в кэш даже если кэш в конфиге отключен
-    public $ignore = FALSE;
-
 
 
     public function __construct()
@@ -62,9 +59,28 @@ class Cache
         return FALSE;
     }
 
+    public function ignore_save($id, $data, $time = 31536000)
+    {
+        $contents = array(
+            'time' => time(),
+            'data' => $data,
+            'ttl'  => $time,
+        );
+
+        $path = $this->_cache_path . $id . $this->_ext;
+
+        if(file_put_contents($path, json_encode($contents)))
+        {
+            chmod($path, 0777);
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
     public function save($id, $data, $time = 31536000)
     {
-        if($this->_CI->config->item('cache_allow') === FALSE && $this->ignore === FALSE)
+        if($this->_CI->config->item('cache_allow') === FALSE)
         {
             return;
         }

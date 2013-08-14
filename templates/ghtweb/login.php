@@ -31,7 +31,7 @@
 		<label></label>
 		<div class="controls">
 			<button type="submit" name="submit">Войти</button>
-			<a href="/forgotten_password/" class="forgot-pswd">Забыли пароль?</a>
+			<a href="/forgotten-password/" class="forgot-pswd">Забыли пароль?</a>
 		</div>
 	</div>
 

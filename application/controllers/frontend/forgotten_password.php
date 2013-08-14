@@ -3,6 +3,11 @@
 
 class Forgotten_password extends Controllers_Frontend_Base
 {
+    const KEY_LIFETIME = 30; // Время жизни ключа для восстановления пароля (в минутах)
+
+
+
+
     public function index()
 	{
         if($this->input->post())
@@ -22,78 +27,41 @@ class Forgotten_password extends Controllers_Frontend_Base
             {
                 $this->load->helper('string');
 
-                $new_password = random_string('alnum', rand(4,20));
+                $hash = md5(uniqid(rand()));
 
-                if($this->config->item('forgotten_password_type') == 'site')
+
+                $data_tmp = array(
+                    'key'   => $hash,
+                    'email' => $this->login_data['email'],
+                    'login' => $this->login_data['login'],
+                );
+
+                $this->cache->ignore_save('tmp/forgotten_password_' . $hash, $data_tmp, self::KEY_LIFETIME * 60);
+
+
+                $this->load->model('email_templates_model');
+
+                $email_tpl = $this->email_templates_model->get_template('forgotten_password_step1');
+
+                if(!$email_tpl)
                 {
-                    $data_db = array(
-                        'password' => $this->auth->password_encript($new_password),
-                    );
+                    $email_tpl['text']  = 'Ошибка';
+                    $email_tpl['title'] = 'Шаблон для письма не найден';
+                }
 
-                    $data_db_where = array(
-                        'login' => $_POST['login'],
-                    );
+                $email_tpl['text'] = strtr($email_tpl['text'], array(
+                    ':site_url'       => site_url(),
+                    ':forgotten_link' => site_url('forgotten-password/' . $hash),
+                ));
 
-                    if($this->users_model->edit($data_db, $data_db_where))
-                    {
-                        $this->view_data['message'] = Message::true('Ваш новый пароль: ' . $new_password);
-                    }
-                    else
-                    {
-                        $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
-                    }
+
+                if(send_mail($this->login_data['email'], $email_tpl['title'], $email_tpl['text']))
+                {
+                    $this->view_data['message'] = Message::true('На Email указанный при регистрации отправлены инструкции по восстановлению пароля');
                 }
                 else
                 {
-                    $hash = md5(uniqid(rand()));
-
-                    $link = site_url('forgotten_password/' . $hash);
-
-                    $this->load->model(array('email_templates_model', 'forgotten_password_model'));
-
-                    $email_tpl = $this->email_templates_model->get_template('forgotten_password_step1');
-
-                    if(!$email_tpl)
-                    {
-                        $email_tpl['text']  = 'Ошибка';
-                        $email_tpl['title'] = 'Шаблон для письма не найден';
-                    }
-
-                    $email_tpl['text'] = strtr($email_tpl['text'], array(
-                        ':site_url'       => site_url(),
-                        ':forgotten_link' => $link,
-                    ));
-
-                    $data_db = array(
-                        'key'   => $hash,
-                        'email' => $this->login_data['email'],
-                        'login' => $this->login_data['login'],
-                    );
-
-                    // Чищю записи
-                    $this->forgotten_password_model->del(array(
-                        'login' => $this->login_data['login'],
-                    ));
-
-                    if($this->forgotten_password_model->add($data_db))
-                    {
-                        if(send_mail($this->login_data['email'], $email_tpl['title'], $email_tpl['text']))
-                        {
-                            $this->view_data['message'] = Message::true('На Email указанный при регистрации отправлены инструкции по восстановлению пароля');
-                        }
-                        else
-                        {
-                            $this->forgotten_password_model->del(array(
-                                'login' => $this->login_data['login'],
-                            ));
-
-                            $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
-                        }
-                    }
-                    else
-                    {
-                        $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
-                    }
+                    $this->view_data['message'] = Message::false('Ошибка! Обратитесь к Администрации сайта');
                 }
             }
 
@@ -126,15 +94,11 @@ class Forgotten_password extends Controllers_Frontend_Base
     
     public function step2($hash)
     {
-        $data_db_where = array(
-            'key' => $hash,
-        );
+        $cache_name = 'tmp/forgotten_password_' . $hash;
 
-        $this->load->model('forgotten_password_model');
+        $data = $this->cache->get($cache_name);
         
-        $data = $this->forgotten_password_model->get_row($data_db_where);
-        
-        if($data)
+        if($data !== FALSE)
         {
             $this->load->helper('string');
             
@@ -150,9 +114,6 @@ class Forgotten_password extends Controllers_Frontend_Base
             
             if($this->users_model->edit($data_db, $data_db_where))
             {
-                $this->forgotten_password_model->del($data_db_where);
-                
-                
                 $this->load->model('email_templates_model');
 
                 $email_tpl = $this->email_templates_model->get_template('forgotten_password_step2');
@@ -167,8 +128,9 @@ class Forgotten_password extends Controllers_Frontend_Base
                     ':site_url' => site_url(),
                     ':password' => $new_password,
                 ));
-                
-                
+
+                $this->cache->delete($cache_name);
+
                 if(send_mail($data['email'], $email_tpl['title'], $email_tpl['text']))
                 {
                     $message = Message::true('На Email указанный при регистрации отправлен новый пароль');
@@ -185,12 +147,12 @@ class Forgotten_password extends Controllers_Frontend_Base
         }
         else
         {
-            $message = Message::false('Ключ восстановления пароля не найден');
+            $message = Message::false('Ключ для восстановления пароля не найден');
         }        
 
 
         $this->session->set_flashdata('message', $message);
-        redirect('forgotten_password');
+        redirect('forgotten-password');
     }
 
     public function _check_login_exists($login)

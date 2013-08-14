@@ -75,10 +75,11 @@ $route['news/detail/(:num)'] = 'frontend/news/detail/$1';
 $route['register/activation/(:any)'] = 'frontend/register/activation/$1';
 
 // Авторизация, восстановление пароля, галерея, регистрация
-$route['(login|forgotten_password|gallery|register)'] = 'frontend/$1';
+$route['(login|gallery|register)'] = 'frontend/$1';
 
-// Восстановление пароля шаг2
-$route['forgotten_password/(:any)'] = 'frontend/forgotten_password/step2/$1';
+// Восстановление пароля
+$route['forgotten-password'] = 'frontend/forgotten_password';
+$route['forgotten-password/(:any)'] = 'frontend/forgotten_password/step2/$1';
 
 // Депозит
 $route['deposit'] = 'frontend/deposit';

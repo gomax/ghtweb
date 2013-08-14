@@ -49,9 +49,7 @@ class Profile extends Controllers_Cabinet_Base
 
                 $activation_link = md5(uniqid(rand()) . $data_tmp['email']);
 
-                $this->cache->ignore = TRUE;
-                $this->cache->save('tmp/' . $activation_link, $data_tmp, $this->config->item('profile_change_time') * 60);
-                $this->cache->ignore = FALSE;
+                $this->cache->ignore_save('tmp/' . $activation_link, $data_tmp, $this->config->item('profile_change_time') * 60);
 
                 $this->load->model('email_templates_model');
 
