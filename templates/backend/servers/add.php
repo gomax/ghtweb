@@ -4,14 +4,13 @@
 
 <?php echo $message ?>
 
-
 <ul class="nav nav-tabs">
-	<li class="active"><a href="#other">Общие</a></li>
-	<li><a href="#mysql">Mysql</a></li>
-	<li><a href="#telnet">Telnet</a></li>
-	<li><a href="#stats">Статистика</a></li>
-	<li><a href="#rates">Рейты</a></li>
-	<li><a href="#donat">Донат</a></li>
+	<li class="active"><a data-toggle="tab" href="#other">Общие</a></li>
+	<li><a data-toggle="tab" href="#mysql">Mysql</a></li>
+	<li><a data-toggle="tab" href="#telnet">Telnet</a></li>
+	<li><a data-toggle="tab" href="#stats">Статистика</a></li>
+	<li><a data-toggle="tab" href="#rates">Рейты</a></li>
+	<li><a data-toggle="tab" href="#donat">Донат</a></li>
 </ul>
 
 <?php echo form_open('', 'class="form-horizontal"') ?>
@@ -109,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="mysql">
+        <div class="tab-pane fade" id="mysql">
             <div class="control-group<?php echo (form_error('db_host') ? ' error' : '') ?>">
                 <label for="db_host" class="control-label">MYSQL хост</label>
                 <div class="controls">
@@ -156,7 +155,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="telnet">
+        <div class="tab-pane fade" id="telnet">
             <div class="control-group<?php echo (form_error('telnet_host') ? ' error' : '') ?>">
                 <label for="telnet_host" class="control-label">TELNET хост</label>
                 <div class="controls">
@@ -185,7 +184,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="stats">
+        <div class="tab-pane fade" id="stats">
             <div class="control-group<?php echo (form_error('stats_allow') ? ' error' : '') ?>">
                 <label for="stats_allow" class="control-label">Статистика</label>
                 <div class="controls">
@@ -335,7 +334,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="rates">
+        <div class="tab-pane fade" id="rates">
             <div class="control-group<?php echo (form_error('exp') ? ' error' : '') ?>">
                 <label for="exp" class="control-label">Exp</label>
                 <div class="controls">
@@ -418,7 +417,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="donat">
+        <div class="tab-pane fade" id="donat">
             
             <div class="control-group<?php echo (form_error('donat_allow') ? ' error' : '') ?>">
                 <label for="donat_allow" class="control-label">Статус сервиса</label>

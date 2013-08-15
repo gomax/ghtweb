@@ -6,12 +6,12 @@
 
 
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#other">Общие</a></li>
-    <li><a href="#mysql">Mysql</a></li>
-    <li><a href="#telnet">Telnet</a></li>
-    <li><a href="#stats">Статистика</a></li>
-    <li><a href="#rates">Рейты</a></li>
-    <li><a href="#donat">Донат</a></li>
+    <li class="active"><a data-toggle="tab" href="#other">Общие</a></li>
+    <li><a data-toggle="tab" href="#mysql">Mysql</a></li>
+    <li><a data-toggle="tab" href="#telnet">Telnet</a></li>
+    <li><a data-toggle="tab" href="#stats">Статистика</a></li>
+    <li><a data-toggle="tab" href="#rates">Рейты</a></li>
+    <li><a data-toggle="tab" href="#donat">Донат</a></li>
 </ul>
 
 <?php echo form_open('', 'class="form-horizontal"') ?>

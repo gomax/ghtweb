@@ -84,7 +84,7 @@ $(function(){
     });*/
     
     // Tabs
-    $('.nav-tabs a').click(function (e) {
+    $('.nav-tabs a').on('click',function (e) {
 	    e.preventDefault();
 	    $(this).tab('show');
     })
