@@ -1,5 +1,5 @@
 <div class="page-title">
-	<h1>Персонажи аккаунта <?php echo $this->uri->segment(4) ?></h1>
+    <h1>Персонажи аккаунта <?php echo $this->uri->segment(4) ?></h1>
 </div>
 
 <?php echo $message ?>
@@ -8,7 +8,7 @@
     
     <?php foreach($content as $server_id => $row) { ?>
         
-		<h3 class="servers-list">Сервер: <i><?php echo $row['server_name'] ?></i></h3>
+        <h3 class="servers-list">Сервер: <i><?php echo $row['server_name'] ?></i></h3>
         
         <table class="table">
             <thead>
@@ -24,7 +24,7 @@
                 <?php foreach($row['characters'] as $i => $character) { ?>
                     <tr>
                         <td><?php echo ++$i ?></td>
-                        <td><?php echo $character['char_name'] ?></td>
+                        <td><?php echo html_escape($character['char_name']) ?></td>
                         <td><?php echo online_time($character['onlinetime']) ?></td>
                         <td><?php echo ($character['online'] ? 'Онлайн' : 'Оффлайн') ?></td>
                         <td>
