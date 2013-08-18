@@ -45,7 +45,9 @@ $route['404_override'] = 'errors/e404';
 
 // Cabinet
 $route['cabinet'] = 'cabinet/main';
-$route['cabinet/(accounts|profile|logout|register_account|add_account)'] = 'cabinet/$1';
+$route['cabinet/(accounts|profile|logout)'] = 'cabinet/$1';
+$route['cabinet/register-account'] = 'cabinet/register_account';
+$route['cabinet/add-account'] = 'cabinet/add_account';
 $route['cabinet/profile/change/(:any)'] = 'cabinet/profile/change/$1';
 $route['cabinet/edit-account/(:num)/(:any)'] = 'cabinet/edit_account/index/$1/$2';
 

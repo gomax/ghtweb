@@ -12,12 +12,4 @@ class Ajax extends GW_Controller
             die;
         }
     }
-
-
-    public function captcha_reload()
-	{
-        $captcha = $this->captcha->get_img();
-        
-		die(json_encode($captcha));
-	}
 }
