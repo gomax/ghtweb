@@ -25,7 +25,7 @@ $(function(){
 		
 		//modal_box('Предупреждение', 'Точно удалить?', 'Удалить', $(this).attr('href'));
 		
-		return false;
+		//return false;
 	//});
 	
 	// Закрытие модального окна

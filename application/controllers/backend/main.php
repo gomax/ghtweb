@@ -119,34 +119,6 @@ class Main extends Controllers_Backend_Base
             redirect();
         }
 
-        $dir = FCPATH . 'application/cache';
-
-        $this->clear_cache($dir);
-    }
-
-    private function clear_cache($dir)
-    {
-        $directory = scandir($dir);
-        $count     = count($directory);
-
-        for($i = 0; $i < $count; $i++)
-        {
-            if($i < 2)
-            {
-                continue;
-            }
-
-            if(is_dir($dir . '/' . $directory[$i]))
-            {
-                $this->clear_cache($dir . '/' . $directory[$i]);
-            }
-            else
-            {
-                if($directory[$i] != 'index.html' && $directory[$i] != '.htaccess')
-                {
-                    unlink($dir . '/' . $directory[$i]);
-                }
-            }
-        }
+        $this->cache->clean();
     }
 }
