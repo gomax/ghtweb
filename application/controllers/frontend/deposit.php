@@ -287,43 +287,75 @@ class Deposit extends Controllers_Frontend_Base
                     $insert = FALSE;
                     $error  = FALSE;
 
-                    // Кидаю предмет в игру
-                    if($this->l2_settings['servers'][$data['server_id']]['donat_item_type'])
+                    // Если есть таблица "items_delayed" то кидаю шмотку в неё
+                    if($this->lineage->db->table_exists('items_delayed'))
                     {
-                        // Stock
-                        $item_data = $this->lineage->get_character_items(1, 0, array(
-                            'item_id'  => $data['item_id'],
-                            'owner_id' => $char_data['char_id'],
+                        $res = $this->lineage->db->insert('items_delayed', array(
+                            'owner_id'    => $char_data['char_id'],
+                            'item_id'     => $data['item_id'],
+                            'count'       => $data['item_count'],
+                            'description' => 'GHTWEB v' . VERSION,
                         ));
 
-                        if($item_data)
+                        if(!$res)
                         {
-                            if(!$this->lineage->edit_item($item_data['object_id'], $data['item_count'] + $item_data['count'], $char_data['char_id']))
+                            $error = TRUE;
+                        }
+                    }
+                    elseif($this->lineage->db->table_exists('character_items'))
+                    {
+                        $res = $this->lineage->db->insert('character_items', array(
+                            'owner_id'      => $char_data['char_id'],
+                            'item_id'       => $data['item_id'],
+                            'count'         => $data['item_count'],
+                            'enchant_level' => 0,
+                        ));
+
+                        if(!$res)
+                        {
+                            $error = TRUE;
+                        }
+                    }
+                    else
+                    {
+                        // Кидаю предмет в игру
+                        if($this->l2_settings['servers'][$data['server_id']]['donat_item_type'])
+                        {
+                            // Stock
+                            $item_data = $this->lineage->get_character_items(1, 0, array(
+                                'item_id'  => $data['item_id'],
+                                'owner_id' => $char_data['char_id'],
+                            ));
+
+                            if($item_data)
                             {
-                                echo $payment_system->get_error();
-                                log_file("Не удалось отредактировать предмет\ntransaction_id: " . $transaction_id, $payment_type);
-                                $error = TRUE;
+                                if(!$this->lineage->edit_item($item_data['object_id'], $data['item_count'] + $item_data['count'], $char_data['char_id']))
+                                {
+                                    echo $payment_system->get_error();
+                                    log_file("Не удалось отредактировать предмет\ntransaction_id: " . $transaction_id, $payment_type);
+                                    $error = TRUE;
+                                }
+                            }
+                            else
+                            {
+                                $insert = TRUE;
                             }
                         }
                         else
                         {
                             $insert = TRUE;
                         }
-                    }
-                    else
-                    {
-                        $insert = TRUE;
-                    }
 
 
-                    if($insert)
-                    {
-                        // No stock
-                        if(!$this->lineage->insert_item($data['item_id'], $data['item_count'], $char_data['char_id']))
+                        if($insert)
                         {
-                            $error = TRUE;
-                            echo $payment_system->get_error();
-                            log_file('Не удалось добавить предмет в игру', $payment_type);
+                            // No stock
+                            if(!$this->lineage->insert_item($data['item_id'], $data['item_count'], $char_data['char_id']))
+                            {
+                                $error = TRUE;
+                                echo $payment_system->get_error();
+                                log_file('Не удалось добавить предмет в игру', $payment_type);
+                            }
                         }
                     }
 
