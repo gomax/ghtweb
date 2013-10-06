@@ -15,7 +15,7 @@
 <?php if($count_game_accounts < 1) { ?>
     <br />
     <p>
-        У вас нет ни единого игрового аккаунта. <a href="/cabinet/create_game_account/">Хотите создать его?</a>
+        У вас нет ни единого игрового аккаунта. <a href="/cabinet/register-account/">Хотите создать его?</a>
     </p>
 <?php } ?>
 
