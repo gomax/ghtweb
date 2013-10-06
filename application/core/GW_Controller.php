@@ -55,8 +55,6 @@ class GW_Controller extends CI_Controller
             }
         }
 
-       // $this->migration->version(2);
-
         if(!defined('TPL'))
         {
             define('TPL', base_url() . 'templates/' . $this->config->item('template') . '/');
@@ -67,9 +65,6 @@ class GW_Controller extends CI_Controller
 
         // Логины
         $this->l2_settings['logins'] = $this->logins_model->get_all();
-
-        // Группы пользователей
-        //$this->_user_groups = $this->user_groups_model->get_groups_list();
 
         // Конфиг Lineage
         $this->config->load('lineage', true);

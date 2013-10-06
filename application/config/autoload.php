@@ -70,7 +70,7 @@ $autoload['libraries'] = array('Cache', 'database', 'session', 'auth', 'Message'
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('array_column', 'main', 'url', 'form', 'lineage');
+$autoload['helper'] = array('array_column', 'main', 'global', 'url', 'form', 'lineage');
 
 
 /*

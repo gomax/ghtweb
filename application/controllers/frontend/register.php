@@ -4,7 +4,7 @@ class Register extends Controllers_Frontend_Base
 {
 	public function index()
 	{
-        if($this->input->post())
+        if($this->input->post() && config('register_allow') == 1)
         {
             $this->load->library('form_validation');
 

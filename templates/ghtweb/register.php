@@ -4,45 +4,50 @@
 
 <?php echo $message ?>
 
-<form action="" method="POST" class="form">
-    
-	<div class="row">
-		<label for="login">Логин</label>
-		<div class="controls">
-			<input type="text" name="login" id="login" value="<?php echo set_value('login') ?>" />
+
+<?php if(config('register_allow') == 1) { ?>
+	<form action="" method="POST" class="form">
+	    
+		<div class="row">
+			<label for="login">Логин</label>
+			<div class="controls">
+				<input type="text" name="login" id="login" value="<?php echo set_value('login') ?>" />
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<label for="email">Email</label>
-		<div class="controls">
-			<input type="text" name="email" id="email" value="<?php echo set_value('email') ?>" />
+		<div class="row">
+			<label for="email">Email</label>
+			<div class="controls">
+				<input type="text" name="email" id="email" value="<?php echo set_value('email') ?>" />
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<label for="password">Пароль</label>
-		<div class="controls">
-			<input type="password" name="password" id="password" />
+		<div class="row">
+			<label for="password">Пароль</label>
+			<div class="controls">
+				<input type="password" name="password" id="password" />
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<label for="repassword">Повтор пароля</label>
-		<div class="controls">
-			<input type="password" name="repassword" id="repassword" />
+		<div class="row">
+			<label for="repassword">Повтор пароля</label>
+			<div class="controls">
+				<input type="password" name="repassword" id="repassword" />
+			</div>
 		</div>
-	</div>
-	<?php if($recaptcha !== FALSE) { ?>
+		<?php if($recaptcha !== FALSE) { ?>
+			<div class="row">
+				<label></label>
+				<div class="controls">
+					<div class="captcha"><?php echo $recaptcha ?></div>
+				</div>
+			</div>
+		<?php } ?>
 		<div class="row">
 			<label></label>
 			<div class="controls">
-				<div class="captcha"><?php echo $recaptcha ?></div>
+				<button type="submit" name="submit">Зарегистрироваться</button>
 			</div>
 		</div>
-	<?php } ?>
-	<div class="row">
-		<label></label>
-		<div class="controls">
-			<button type="submit" name="submit">Зарегистрироваться</button>
-		</div>
-	</div>
-	
-</form>
+		
+	</form>
+<?php } else { ?>
+	Регистрация отключена
+<?php } ?>
