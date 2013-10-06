@@ -17,7 +17,7 @@ $config = array(
         array(
             'field' => 'description',
             'label' => 'Описание',
-            'rules' => 'xss_clean|strip_tags|trim|required|min_length[5]'
+            'rules' => 'trim|required|min_length[5]'
         ),
         array(
             'field' => 'text',
