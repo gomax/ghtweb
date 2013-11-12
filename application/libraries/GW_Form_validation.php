@@ -18,7 +18,7 @@ class GW_Form_validation extends CI_Form_validation
 
         if(!$this->CI->recaptcha->getIsValid())
         {
-            $this->CI->set_message(__FUNCTION__, 'Код с картинки введен не верно');
+            $this->set_message(__FUNCTION__, 'Код с картинки введен не верно');
             return FALSE;
         }
 
