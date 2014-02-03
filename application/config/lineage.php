@@ -304,14 +304,15 @@ $config['donat_table'] = array('items', 'items_delayed', 'character_items');
 
 // Типы серверов
 $config['types_of_servers'] = array(
-    'emurt'         => 'EmuRT Epilogue',
-    'acis'          => 'aCis Interlude',
-    'rt'            => 'RT Interlude',
-    'lucer'         => 'Lucer Interlude',
-    'altdev'        => 'Alternative Development',
-    'l2jserver'     => 'L2j Server',
-    'first_team_hf' => 'First Team High Five',
-    'l2j_frozen_it' => 'L2j Frozen Interlude',
-    'rebellion_it'  => 'Rebellion Interlude',
-    'rebellion_hf'  => 'Rebellion High Five',
+    'emurt'            => 'EmuRT Epilogue',
+    'acis'             => 'aCis Interlude',
+    'rt'               => 'RT Interlude',
+    'lucer'            => 'Lucer Interlude',
+    'altdev'           => 'Alternative Development',
+    'l2jserver'        => 'L2j Server',
+    'first_team_hf'    => 'First Team High Five',
+    'l2j_frozen_it'    => 'L2j Frozen Interlude',
+    'rebellion_it'     => 'Rebellion Interlude',
+    'rebellion_hf'     => 'Rebellion High Five',
+    'nextgen_epilogue' => 'Nextgen Epilogue',
 );
