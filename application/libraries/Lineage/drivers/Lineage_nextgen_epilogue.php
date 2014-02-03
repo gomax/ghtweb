@@ -362,7 +362,7 @@ class Lineage_nextgen_epilogue extends CI_Driver
 
     public function get_top_clans($limit = NULL)
     {
-        $res = $this->db->select('clan_data.clan_id,clan_subpledges.`name` AS clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,clan_data.ally_id,ally_data.ally_name,clan_subpledges.leader_id,
+        $res = $this->db->select('clan_data.clan_id,clan_data.clan_name,clan_data.clan_level,clan_data.hasCastle,clan_data.hasFortress AS hasFort,clan_data.ally_id,ally_data.ally_name,clan_subpledges.leader_id,
             clan_data.crest AS crest_id,clan_data.largecrest AS crest_large_id,ally_data.crest AS ally_crest_id,clan_data.reputation_score,characters.account_name,characters.char_name,
             character_subclasses.`level`,character_subclasses.maxHp,character_subclasses.curHp,character_subclasses.maxMp,character_subclasses.curMp,character_subclasses.maxCp,character_subclasses.curCp,
             characters.sex,characters.x,characters.y,characters.z,character_subclasses.exp,character_subclasses.sp,characters.karma,characters.pvpkills,characters.pkkills,character_subclasses.class_id as base_class,
@@ -370,7 +370,7 @@ class Lineage_nextgen_epilogue extends CI_Driver
 
             ->join('clan_subpledges', 'clan_data.clan_id = clan_subpledges.clan_id AND clan_subpledges.type = 0', 'left')
             ->join('ally_data', 'clan_data.ally_id = ally_data.ally_id', 'left')
-            ->join('characters', 'clan_subpledges.leader_id = characters.' . $this->char_id, 'left')
+            ->join('characters', 'clan_data.leader_id = characters.' . $this->char_id, 'left')
             ->join('character_subclasses', 'characters.obj_Id = character_subclasses.char_obj_id AND character_subclasses.isBase = 1', 'left')
 
             ->group_by('characters.' . $this->char_id)
