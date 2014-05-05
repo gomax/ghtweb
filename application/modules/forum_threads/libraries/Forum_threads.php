@@ -278,7 +278,7 @@ class Forum_threads
             $deny = explode(',', self::$_config['forum_id_deny']);
             $deny = array_map('trim', $deny);
 
-            self::$_db->where_not_in('forumid', $deny);
+            self::$_db->where_not_in('node_id', $deny);
         }
 
         $res = self::$_db->select('thread_id AS id_topic,title,node_id AS id_forum,last_post_date AS start_date,user_id AS starter_id,last_post_username AS starter_name')
