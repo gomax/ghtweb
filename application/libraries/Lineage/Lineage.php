@@ -47,7 +47,7 @@ class Lineage extends CI_Driver_Library
         
         $config = $this->_CI->l2_settings[$this->_type][$this->_id];
         
-        $db['hostname'] = $config['db_host'];
+        $db['hostname'] = $config['db_host'] . ':' . $config['db_port'];
         $db['username'] = $config['db_user'];
         $db['password'] = $config['db_pass'];
         $db['database'] = $config['db_name'];
