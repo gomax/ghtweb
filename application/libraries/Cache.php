@@ -4,7 +4,7 @@ class Cache
 {
     private $_CI;
     private $_cache_path = '';
-    private $_ext = '.cache';
+    private $_ext = '';
 
 
 
@@ -24,7 +24,7 @@ class Cache
 
     public function get($id)
     {
-        $path = $this->_cache_path . $id . $this->_ext;
+        $path = $this->_cache_path . $this->get_cache_file_name($id) . $this->_ext;
 
         if(!file_exists($path))
         {
@@ -51,7 +51,7 @@ class Cache
 
     public function delete($id)
     {
-        if(file_exists($path = $this->_cache_path . $id . $this->_ext))
+        if(file_exists($path = $this->_cache_path . $this->get_cache_file_name($id) . $this->_ext))
         {
             return unlink($path);
         }
@@ -67,7 +67,7 @@ class Cache
             'ttl'  => $time,
         );
 
-        $path = $this->_cache_path . $id . $this->_ext;
+        $path = $this->_cache_path . $this->get_cache_file_name($id) . $this->_ext;
 
         if(file_put_contents($path, json_encode($contents)))
         {
@@ -91,7 +91,7 @@ class Cache
             'ttl'  => $time,
         );
 
-        $path = $this->_cache_path . $id . $this->_ext;
+        $path = $this->_cache_path . $this->get_cache_file_name($id) . $this->_ext;
 
         if(file_put_contents($path, json_encode($contents)))
         {
@@ -105,5 +105,10 @@ class Cache
     public function clean()
     {
         return delete_files($this->_cache_path);
+    }
+
+    public function get_cache_file_name($id)
+    {
+        return md5($id . config('encryption_key'));
     }
 }
