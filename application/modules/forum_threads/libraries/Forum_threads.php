@@ -213,7 +213,8 @@ class Forum_threads
             self::$_db->where_not_in('id_board', $deny);
         }
 
-        $res = self::$_db->select('subject AS title,poster_time AS start_date,poster_name AS starter_name,id_member AS starter_id,id_board AS id_forum,id_topic')
+        $res = self::$_db->select('subject AS title,poster_time AS start_date,real_name AS starter_name,smf_messages.id_member AS starter_id,id_board AS id_forum,id_topic')
+            ->join('smf_members', 'smf_members.id_member = smf_messages.id_member')
             ->order_by('start_date', 'DESC')
             ->group_by('id_topic')
             ->get('messages', self::$_config['forum_per_page']);
