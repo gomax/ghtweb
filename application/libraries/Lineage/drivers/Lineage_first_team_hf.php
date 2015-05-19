@@ -87,7 +87,7 @@ class Lineage_first_team_hf extends CI_Driver
         return $this->db->get('accounts')->result_array();
     }
 
-    public function get_characters($limit = NULL, $offset = NULL, array $where = NULL, $order_by = NULL, $order_type = 'asc', array $like = NULL, array $group_by = NULL, $where_in_field = NULL, array $where_in = NULL)
+    public function get_characters($limit = NULL, $offset = NULL, array $where = NULL, $order_by = NULL, $order_type = 'asc', array $like = NULL, array $group_by = NULL, $where_in_field = NULL, array $where_in = NULL, $skip_gm = false)
     {
         if(is_numeric($limit))
         {
@@ -122,6 +122,11 @@ class Lineage_first_team_hf extends CI_Driver
         if($where_in_field != NULL && $where_in != NULL)
         {
             $this->db->where_in($where_in_field, $where_in);
+        }
+
+        if (true === $skip_gm)
+        {
+            $this->db->where('accesslevel', 0);
         }
 
         $this->db->select('characters.account_name,characters.obj_Id AS char_id,characters.char_name,character_subclasses.`level`,character_subclasses.curHp,character_subclasses.curMp,character_subclasses.curCp,character_subclasses.maxHp,character_subclasses.maxMp,
@@ -326,7 +331,7 @@ class Lineage_first_team_hf extends CI_Driver
 
     public function get_count_races_group_race()
     {
-        $characters = $this->get_characters();
+        $characters = $this->get_characters(null, null, null, null, 'asc', null, null, null, null, true);
 
         $result = array();
 
@@ -354,12 +359,12 @@ class Lineage_first_team_hf extends CI_Driver
 
     public function get_top_pvp($limit = NULL)
     {
-        return $this->get_characters($limit, NULL, array('pvpkills >' => '0'), 'pvpkills', 'desc');
+        return $this->get_characters($limit, NULL, array('pvpkills >' => '0'), 'pvpkills', 'desc', null, null, null, null, true);
     }
 
     public function get_top_pk($limit = NULL)
     {
-        return $this->get_characters($limit, NULL, array('pkkills >' => '0'), 'pkkills', 'desc');
+        return $this->get_characters($limit, NULL, array('pkkills >' => '0'), 'pkkills', 'desc', null, null, null, null, true);
     }
 
     public function get_top_clans($limit = NULL)
@@ -394,12 +399,12 @@ class Lineage_first_team_hf extends CI_Driver
 
     public function get_top_online($limit = 10)
     {
-        return $this->get_characters($limit, NULL, array('online' => '1'), 'level', 'desc');
+        return $this->get_characters($limit, NULL, array('online' => '1'), 'level', 'desc', null, null, null, null, true);
     }
 
     public function get_top($limit = 10)
     {
-        return $this->get_characters($limit, NULL,  NULL, 'exp', 'desc');
+        return $this->get_characters($limit, NULL,  NULL, 'exp', 'desc', null, null, null, null, true);
     }
 
     public function get_top_rich($limit = 10)
